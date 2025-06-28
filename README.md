@@ -39,39 +39,56 @@
 
 ### 2.패키지 관리 도구
 
-- 📦 npm: Node Package Manager + 역할: 패키지 설치, 삭제, 업데이트 + 의존성 관리 : package.json 기반의 프로젝트 구성 관리 + 설치 확인 : npm -v
+- 📦 npm: Node Package Manager
+  - 역할: 패키지 설치, 삭제, 업데이트
+  - 의존성 관리 : package.json 기반의 프로젝트 구성 관리
+  - 설치 확인
 
-      + 로컬 설치 : npm install 패키지 이름
-          + 프로젝트 node_modules 폴더에 설처
+    `npm -v`
 
-      + 전역 설치 : npm install -g 패키지 이름
-          + 전역 패키지 설치 폴더와 버전 확인 : npm root -g
+  - 로컬 설치
 
-      + 제거 : npm uninstall 패키지이름
-      + package.json 기반 설치 : npm install
+    `npm install '패키지 이름'`
 
-  - 🎯 npx: npm package executor
+    - 프로젝트 node_modules 폴더에 설처
+  - 전역 설치 :
+  
+    `npm install -g 패키지 이름`
+       - 전역 패키지 설치 폴더와 버전 확인 :
+         `npm root -g`
+  - 제거 :
+
+    `npm uninstall 패키지이름`
+    
+  - package.json 기반 설치 :
+
+    `npm install`
+
+- 🎯 npx: npm package executor
     - 설치 없이도 패키지를 한 번만 실행하고 싶을 때 사용
     - 전역 설치 없이 최신 버전 실행 가능
     - CLI 도구를 자동 실행
-    - 리액트 프로젝트 만들 때 : npx create-react-app 프로젝트이름
+    - 리액트 프로젝트 만들 때 :
+
+      `npx create-react-app 프로젝트이름`
+
       - create-react-app 설치와 리액트 프로젝트 초기화 실행
 
 ### 3. Lint (린트)
 
 - 프로그래밍 소스 코드를 분석하여 잠재적인 오류, 버그, 스타일 오류 및 의심스러운 구조를 찾아내는 정적 코드 분석 도구를 의미합니다. 주로 코딩 규칙 준수, 가독성 향상, 잠재적 문제점 방지 등을 위해 사용됩니다.
 
-- 프론트엔드 개발: ESLint. JavaScript 코드의 오류 및 스타일 문제를 검사하고, prettier와 함께 사용되어 코드 포맷을 자동으로 맞춰줍니다. 문법과 코드 스타일 검사. ==> VS Code 확장 프로그램 설치
+- 프론트엔드 개발: ESLint. JavaScript 코드의 오류 및 스타일 문제를 검사하고, prettier와 함께 사용되어 코드 포맷을 자동으로 맞춰줍니다. 문법과 코드 스타일 검사. 👉 VS Code 확장 프로그램 설치
 
 ### 4. 리액트 프로젝트 만들기
 
-    <pre>
         C:\class241129\React>npx create-react-app Lesson01
         C:\class241129\React>cd Lesson01
+        - 개발 모드로 실행 -
         C:\class241129\React\Lesson01>npm start
-        - 빌드 -
+        - 빌드(배포)-
         C:\class241129\React\hello-react>npm run build
-    <pre>
+    
 
 ### 5. 웹팩 webpack & 번들 bundle
 
@@ -118,5 +135,5 @@
     │   ├── index.js        개발 소스 파일
     │   ├── App.test.js , reportWebVitals.js, setupTest.js   : 성능 및 테스트 실행 파일
     └── package.json        패키지 버전 및 의존성 관리 파일
-    └── yarn.lock           패키지 의존성 고정 파일
+    └── package-lock.json   패키지 의존성 고정 파일
     └── .gitignore          git 사용시 추적에서 제외되는 파일
