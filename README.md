@@ -82,12 +82,14 @@
 
 ### 4. 리액트 프로젝트 만들기
 
-        C:\class241129\React>npx create-react-app lesson01
-        C:\class241129\React>cd lesson01
+        C:\class250616\React>npx create-react-app lesson01
+        C:\class250616\React>cd lesson01
+        - 설치된 패키지 확인하기
+        C:\class250616\React\lesson01>npm list
         - 개발 모드로 실행 -
-        C:\class241129\React\lesson01>npm start
+        C:\class250616\React\lesson01>npm start
         - 빌드(배포)-
-        C:\class241129\React\lesson01>npm run build
+        C:\class250616\React\lesson01>npm run build
     
 
 ### 5. 웹팩 webpack & 번들 bundle
