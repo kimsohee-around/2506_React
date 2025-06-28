@@ -82,12 +82,12 @@
 
 ### 4. 리액트 프로젝트 만들기
 
-        C:\class241129\React>npx create-react-app Lesson01
-        C:\class241129\React>cd Lesson01
+        C:\class241129\React>npx create-react-app lesson01
+        C:\class241129\React>cd lesson01
         - 개발 모드로 실행 -
-        C:\class241129\React\Lesson01>npm start
+        C:\class241129\React\lesson01>npm start
         - 빌드(배포)-
-        C:\class241129\React\hello-react>npm run build
+        C:\class241129\React\lesson01>npm run build
     
 
 ### 5. 웹팩 webpack & 번들 bundle
@@ -124,7 +124,7 @@
 ### 7. 프로젝트 폴더 구조
 
  <pre>
-    Lesson01/
+    lesson01/
     ├── node_modules/                          : 패키지 설치 폴더
     ├── public/                                : 기본 리소스 폴더. index.html 과 연관된 이미지 등.
     │   ├── favicon.ico
