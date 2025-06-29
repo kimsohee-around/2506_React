@@ -143,4 +143,6 @@
 
 ### 8. vs code 확장 프로그램
 
--  ES7+ React/Redux/React-Native snippets:
+-  ES7+ React/Redux/React-Native snippets
+-  Reactjs code snippets
+-  CSS Modules
