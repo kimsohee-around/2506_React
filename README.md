@@ -139,3 +139,8 @@
     └── package.json        패키지 버전 및 의존성 관리 파일
     └── package-lock.json   패키지 의존성 고정 파일
     └── .gitignore          git 사용시 추적에서 제외되는 파일
+
+
+### 8. vs code 확장 프로그램
+
+-  ES7+ React/Redux/React-Native snippets:
