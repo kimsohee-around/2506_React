@@ -29,4 +29,13 @@ export default function KPopUL({ members, title }) {
     배열값이 ['나나','미미','모모'] 일때 item='나나', idx=0 / item='미미', idx=1 / item='모모', idx=2
     : 배열의 요소를 하나씩 가져다가 값을 item , 인덱스번호는 idx  저장함.
     : item , idx 값으로 함수내용을 실행한 return 결과로 새로운 배열이 만들어집니다.
+
+    화살표 함수로 바꾸면
+    1)
+      배열.map((item,idx) => {  
+          return  실행내용
+          })
+    2)
+      배열.map((item,idx) => (실행내용))  
+                               ㄴ return 생략하는 형식(암묵적 반환)    
 */
