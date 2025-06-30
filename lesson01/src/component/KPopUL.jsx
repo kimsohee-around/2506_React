@@ -1,10 +1,15 @@
 //Day1_04 : 데이터를 전달 받아 컴포넌트에서 사용하기
 //
 
-export default function KPopUL({ members }) {
+export default function KPopUL({ members, title }) {
+  // 객체 형식으로 저장된 스타일 값 정의. 적용은 style 속성에서 합니다.
+  const titleStyle = {
+    color: 'blue',
+    border: '1px solid gray'
+  }
   return (
     <div>
-      <h3>Kpop idols</h3>
+      <h3 style={titleStyle}>{title}</h3>
       <ul>
         {members.map((item, idx) => (
           <li key={idx}>{item}</li>
@@ -12,7 +17,7 @@ export default function KPopUL({ members }) {
         {/* jsx는 태그안에 js 코드 쓸때 꼭 중괄호 안에 씁니다. */}
       </ul>
     </div>
-  );
+  )
 }
 /*
     위의 코드에서 KPopUL({ members })  와 같이 함수에 입력값(인자) 있습니다.부모 컴포넌트가 주는 값입니다.

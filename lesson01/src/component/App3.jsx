@@ -6,8 +6,8 @@ export default function App() {
   const twice = ["나연❤", "모모", "다현", "지효"];
   return (
     <div>
-      <KPopUL members={twice} />
-      <KPopUL members={["슈가", "지민", "제이홉", "뷔"]} />
+      <KPopUL members={twice} title={"트와이스"} />
+      <KPopUL members={["슈가", "지민", "제이홉", "뷔"]} title={"BTS"} />
     </div>
   );
 }
