@@ -3,6 +3,7 @@
 //          index.js 에 import 하기
 
 import TimeTableH from './TimeTableH'
+import TimeTableH_2 from './TimeTableH_2'
 
 export default function App() {
   const time = ['09:00', '11:00', '12:30', '14:00', '16:45']
@@ -10,8 +11,11 @@ export default function App() {
 
   return (
     <div>
+      {/* time,todo,title 속성은 객체 형태로 자식 컴포넌트에게 전달. */}
+      {/* 자식 1: 함수 인자로 객체를 분해하여 각 속성 변수를 선언 */}
       <TimeTableH time={time} todo={todo} title={'첫번째 테이블'} />
-      {/* <TimeTableH time={time} todo={todo} title={'두번째 테이블'} /> */}
+      {/* 자식 2: 함수 인자로 객체를 저장할 변수 선언 */}
+      <TimeTableH_2 time={time} todo={todo} title={'두번째 테이블'} />
     </div>
   )
 }
