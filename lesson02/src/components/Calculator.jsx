@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+//Day2_04 : useState 연습. 출력값, 오류 등에 활용. 유효성 검사.
 export default function Calculator() {
   const [first, setFirst] = useState('')
   const [second, setSecond] = useState('')

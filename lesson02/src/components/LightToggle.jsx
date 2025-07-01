@@ -1,3 +1,4 @@
+//Day2_02 : useState 연습. 조건식 삼항 연산
 import { useState } from 'react'
 import '../assets/css/LightToggle.css'
 import bulbON from '../assets/pic_bulbon.gif'

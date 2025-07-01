@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+//Day2_03 : useState 연습. input 요소의 value, onChange 이벤트
 export default function InputState() {
   const [username, setUsername] = useState('홍길동')
   const [nickname, setNickname] = useState('GDhong')
