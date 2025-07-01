@@ -8,8 +8,10 @@ function App() {
 
   // 아래 button onClick={handleCount}  로 활용할 수 있음.
   function handleCount() {
-    setCount((count) => count + 1)
-    // 원래의 count 값을 콜백함수 인자로 받아서 증가시켜 리턴
+    // count++   //=> 오류
+    // setCount(count+1)   //=> 가능하지만 비추천(비동기 등 다른 함수들과 사용될때 문제)
+    setCount((c) => c + 1)
+    // 현재의 count 값을 콜백함수 인자로 받아서 c에 저장 후 증가시켜 리턴
   }
 
   return (

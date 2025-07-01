@@ -58,6 +58,13 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+input {
+  padding: 0.6em 1.2em;
+  margin: 2px;
+  font-family: inherit;
+  font-size: 1.2rem;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
