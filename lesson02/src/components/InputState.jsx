@@ -12,6 +12,7 @@ export default function InputState() {
 
   // e 변수는 : 발생한 이벤트 정보 입력값을 저장하는 변수
   function handleKeydown(e) {
+    console.log(e)
     if (e.key === 'Enter') handleOk()
   }
 
@@ -24,6 +25,7 @@ export default function InputState() {
         type='text'
         placeholder='사용자 이름 입력하세요.'
         value={username}
+        onKeyDown={handleKeydown}
         onChange={(e) => setUsername(e.target.value)}
       />
       {/* e.target 은 이벤트를 일으킨 요소 */}
