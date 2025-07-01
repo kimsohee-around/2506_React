@@ -8,8 +8,10 @@ export default function TimeTableV({ schedules }) {
       <h3>2025.07.01(day2) 시간표</h3>
       <table>
         <thead>
-          <th className='theading'>TIME</th>
-          <th className='theading'>TODO</th>
+          <tr>
+            <td className='theading'>TIME</td>
+            <td className='theading'>TODO</td>
+          </tr>
         </thead>
         <tbody>
           {
