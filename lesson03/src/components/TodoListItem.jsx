@@ -18,7 +18,7 @@ export default function TodoListItem({ todo, onRemove, onChecked }) {
 
   // 🔥 onChecked 함수 : 부모컴포넌트에게 props 로 전달 받음
   return (
-    <div className='TodoListItem' key={idx}>
+    <div className='TodoListItem'>
       <div
         className={`checkbox ${checked ? 'checked' : ''}`}
         onClick={() => onChecked(id)}
