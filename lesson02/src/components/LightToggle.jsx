@@ -15,7 +15,7 @@ function LightToggle() {
     // setIsOn(!isOn)    // 문제 발생 가능성 있음. (비추천)
     setIsOn((prev) => !prev)
     // 현재 isOn 상태 값을 콜백함수 인자로 받아서 prev에 저장.
-    // !prev Not 연산 결과를 리턴.   function(prev){ return !prev } 와 동일함
+    // !prev Not 연산 결과를 리턴.   function(prev){ recturn !prev } 와 동일함
   }
 
   return (
