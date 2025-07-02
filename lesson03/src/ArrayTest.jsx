@@ -34,6 +34,7 @@ function App() {
     const newTodos = todos.filter((item) => item.id !== id);
     // 인자로 전달된 id값이 아닌것만 필터링하여 상태변경
     setTodos(newTodos);
+
   }
 
   function handleChecked(id) {
@@ -42,9 +43,11 @@ function App() {
     // ! 연산자는 참은 거짓, 거짓은 참으로 변경
     const newtodos = todos.map((item) =>
       item.id === id ? { ...item, checked: !item.checked } : item
+    //  조건식?  참일때 리턴값 : 거짓일때 리턴값
     );
     // 상태가 바뀝니다.
     setTodos(newtodos);
+    
   }
 
   function handleInsert(text) {

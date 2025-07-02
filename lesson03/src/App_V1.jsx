@@ -10,7 +10,7 @@ import {
   MdRemoveCircleOutline,
 } from "react-icons/md";
 
-// 추가 패키지 설치 :   npm install sass react-icons
+// 추가 패키지 설치 명령어 :   npm i sass react-icons
 
 function App() {
   // 할일 목록 배열
@@ -36,11 +36,16 @@ function App() {
 
   console.log("todos:", todos);
   const [value, setValue] = useState("");
-
-  function handleChecked(id) {
+  
+  // 🔥 상태변수 todos 변경
+  function handleChecked(id) {    
     // 배열 자체를 바꿔야 상태 변경됩니다.
     // 배열 특정 요소의 checked 값만 변경한 것을 새로운 배열로 하여 todos 변경
     // ! 연산자는 참은 거짓, 거짓은 참으로 변경
+    // item 예시 :
+    // {id: 1, text:'리액트 과제', checked:true}
+    // {id: 2, text:'리액트 프로젝트 기획', checked:false}
+    // {id: 3, text:'데이터베이스 테스트', checked:true}
     const newtodos = todos.map((item) =>
       item.id === id ? { ...item, checked: !item.checked } : item
     );
@@ -48,7 +53,7 @@ function App() {
     setTodos(newtodos);
   }
 
-  // todos  할 일 객체 목록 중 삭제하기
+  // todos  할 일 객체 목록 중 삭제하기 // 🔥 상태변수 todos 변경
   function handleRemove(id) {
     // 인자로 전달받은 id값을 갖는 요소 삭제하기
     // 인자 id값이 아닌 요소로만 새로운 배열 만들기
@@ -56,8 +61,8 @@ function App() {
     setTodos(newtodos);
   }
 
-  // 🔥 화살표 함수 사용해보기
-  // todos 에 할일 객체를 추가
+  // 🔥화살표 함수 사용해보기  //
+  // todos 에 할일 객체를 추가 // 🔥 상태변수 todos 변경
   const handleInsert = (text) => {
     const todo = {
       id: maxid.current,
@@ -74,14 +79,15 @@ function App() {
     maxid.current += 1;
   };
 
+  // ✅이벤트 함수
   const handleSubmit = (e) => {
-    e.preventDefault(); // form 제출 기본 동작을 못하게 막음.
+    e.preventDefault(); // form 서버 제출 기본 동작을 못하게 막음.
     // 입력값을 할일 목록(배열)에 추가시키는 함수 실행하기
+    // 새로운 할일 입력값 value는 상태변수
     handleInsert(value);
-    //   ㄴ 부모 컴포넌트에서 프롭으로 받음.
     setValue("");
   };
-
+   // ✅이벤트 함수
   const handleButton = (id, text) => {
     //리엑트 객체이름 window 생략 못함
     const yn = window.confirm(`일정 ${id}:${text}를 삭제하십니까?`);
@@ -93,18 +99,17 @@ function App() {
       <div className="TodoTemplate">
         <div className="app-title">일정관리</div>
         <div className="content">
-          {/* {children} */}
-          {/* insert */}
           <form className="TodoInsert" onSubmit={handleSubmit}>
             <input
               placeholder="할 일을 입력하세요."
               value={value}
               onChange={(e) => setValue(e.target.value)}
             />
-            {/* 버튼 클릭은 onSubmit => handleSubmit 함수 실행 */}
+            {/* type="submit" 버튼 클릭은 onSubmit 이벤트 발생 => form 태그에서 함수 지정 */}
             <button type="submit">
               <MdAdd />
             </button>
+            {/* type="button" 이면 onClick 이벤트 발생 */}
           </form>
           {/* List */}
           <div className="TodoList">
@@ -123,7 +128,6 @@ function App() {
                   className="remove"
                   onClick={() => handleButton(item.id, item.text)}
                 >
-                  {/*  ()=> onRemove(id)  대신에 handleButton 함수 호출합니다.*/}
                   <MdRemoveCircleOutline />
                 </div>
               </div>
