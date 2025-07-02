@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function App() {
   // 할일 목록 배열
@@ -24,6 +24,11 @@ function App() {
   const [value, setValue] = useState("");
 
   // 🔥 배열 자료구조의 상태변경 -> 재렌더링 -> 화면 바꾸기
+  useEffect(() => {
+    console.log("todos:", todos);
+  }, [todos, value]); // todos 상태 변경이 되면 실행하는 부가 기능
+  //  아래 함수들에서 작성한 console.log(상태값) 는 바로 반영된것이 보이지 않아요.
+  // (재렌더링하기 전의 값을 출력) => useEffect(실행할함수,의존값배열) 사용하여 해결
 
   function handleRemove(id) {
     const newTodos = todos.filter((item) => item.id !== id);
@@ -40,8 +45,6 @@ function App() {
     );
     // 상태가 바뀝니다.
     setTodos(newtodos);
-    console.log("handleChecked:", todos);
-    // 바로 반영된것이 보이지 않아요.(재렌더링하기 전의 값을 출력)
   }
 
   function handleInsert(text) {
