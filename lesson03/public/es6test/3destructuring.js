@@ -17,10 +17,18 @@ function print2({ age, name, addr }) {  // {속성이름1,속성이름2,,,,,} =>
   console.log(addr)   // 없는 속성이름: undefined
 }
 
-function print3({ address }) {    // 필요한 속성만가져오기
+function print3({ address }) {    // 필요한 속성만가져오기. {address:address}
   console.log('print3 함수 실행----')
   console.log(address)
 }
+
+function print4({ address: addr }) {    // address속성값을 addr 변수에 저장
+  console.log('print4 함수 실행----')
+  console.log(addr)
+  console.log(address)   // address 변수 선언 없으므로 오류.(없는 속성은 undefined)
+}
+
 print1(sana)
 print2(sana)
 print3(sana)
+print4(sana)
