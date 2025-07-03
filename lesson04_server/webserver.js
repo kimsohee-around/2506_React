@@ -69,11 +69,16 @@ app.post('/api/todos', async (req, res) => {
 })
 
 // todo 의 checked 속성값 수정.(id 값 지정.)
+/*
+        curl -X PUT http://localhost:5000/api/todos/3 ^
+          -H "Content-Type: application/json" ^
+          -d "{\"checked\": false}"
+*/
 app.put('/api/todos/:id', async (req, res) => {
   // :id 는 파라미터 이름. url 로 변수값을 전달하는 방법
   try {
-    const todoId = Number(req.params.id)
-    const { checked } = req.body
+    const todoId = Number(req.params.id)  //    /api/todos/3
+    const { checked } = req.body     // -d "{\"checked\": false}"
 
     const result = await db.collection(COLLECTION_NAME)
       .updateOne(
@@ -85,16 +90,36 @@ app.put('/api/todos/:id', async (req, res) => {
         }
       )
     console.log(result)
+
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ error: "지정된 id 를 찾을 수 없습니다.!!" })
+    }
+
     res.json({ message: "checked 업데이트 완료!!" })
 
 
   } catch (error) {
     res.status(500).json({ error: "서버오류-데이터 checked 수정 실패!!" })
   }
-
-
 })
 
+// 지정한 id의 todo 삭제
+app.delete('/api/todos/:id', async (req, res) => {
+  try {
+    const todoId = Number(req.params.id)
+    const result = await db.collection(COLLECTION_NAME)
+      .deleteOne({ id: todoId })
+
+    console.log(result)
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ error: "지정된 id 를 찾을 수 없습니다.!!" })
+    }
+
+    res.json({ message: "삭제 성공!!" })
+  } catch (error) {
+    res.status(500).json({ error: "서버오류-데이터 삭제 실패!!" })
+  }
+})
 
 
 // 백엔드 서버 시작
