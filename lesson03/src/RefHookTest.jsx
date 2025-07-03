@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export function FocusInput() {
   // 컴포넌트
@@ -32,5 +32,55 @@ export function FocusInput() {
       />
       <div>닉네임 : {nickname}</div>
     </>
+  )
+}
+
+export function EffectAndRef() {
+  // 컴포넌트
+  const inputRef = useRef(null)
+  const [nickname, setNickname] = useState('') // 🔥 값이 바뀔때, 렌더링 다시함.
+
+  const handleFocus = () => {
+    inputRef.current.focus()
+    inputRef.current.value = '테스트 중입니다.'
+  }
+
+  // useEffect(콜백함수, 의존성 배열) :
+  //   의존성 배열 [상태변수, ]  : 배열에 포함된 상태 값이 바뀔 때마다 콜백함수 실행
+  //   빈 배열  [] : 처음 한번 Component 가 마운트 될 때만 실행
+  //   2번째 인자  없음 : 재 렌더링 될 때 , 항상 실행
+  useEffect(() => {
+    console.log('이름: ', inputRef.current.value) //useRef 는 current 속성으로 요소에 접근
+  })
+
+  return (
+    <>
+      <input ref={inputRef} type='text' placeholder='이름을 입력하세요.' />
+      <button onClick={handleFocus}>포커스 이동</button>
+      <hr />
+      <input
+        value={nickname}
+        placeholder='닉네임을 입력하세요.'
+        onChange={(e) => setNickname(e.target.value)}
+      />
+      <div>닉네임 : {nickname}</div>
+    </>
+  )
+}
+
+export function PreviousValue() {
+  const [count, setCount] = useState(0)
+  const prevCount = useRef(0)
+
+  useEffect(() => {
+    prevCount.current = count
+  }, [count])
+
+  return (
+    <div>
+      <p>현재 값: {count}</p>
+      <p>이전 값: {prevCount.current}</p>
+      <button onClick={() => setCount((count) => count + 1)}>+1</button>
+    </div>
   )
 }
