@@ -23,6 +23,7 @@ API 라우팅 테스트
    (브라우저에서 테스트 못함. why? 백엔드에게 보낼 데이터 작성해야하므로.
     => curl 명령어로 테스트)   
 
+<주의 : 윈도우에서는 아래와 같이 기호 사용할 것>
 curl -X POST http://localhost:5000/api/todos ^
      -H "Content-Type: application/json" ^
-     -d '{"text": "백엔드 구현하기"}'
+     -d "{\"text\":\"과제하기\"}"

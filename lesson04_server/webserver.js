@@ -15,6 +15,10 @@ const DB_NAME = 'react01'
 const COLLECTION_NAME = 'lesson04'
 
 // db연결 : nodejs 서버(백엔드) -> db
+// 백엔드 처리 공통 사항
+//          req.body 는 백엔드가 요청으로 받은 데이터
+//          res.json({데이터})  는 백엔드가 클라이언트에게 보내는 응답데이터
+//          res.status(응답상태코드) 처리결과 값
 let db
 MongoClient.connect(MONGODB_URI)
   .then((client) => {
@@ -33,11 +37,31 @@ app.get("/api/todos", async (req, res) => {
     res.json(todos)   //db에서 조회한 todos 배열을 json 형식 응답으로 보내기                              
   } catch (error) {
     // 오류 발생시 : 서버오류 응답 코드 보내기
-    res.status(500).json({ error: "데이터 조회 실패" })
+    res.status(500).json({ error: "서버오류-데이터 조회 실패" })
   }
 })
 
+// 새로운 todo 추가 (백엔드가 db에 저장)
+app.post('/api/todos', async (req, res) => {
+  try {
+    const { text } = req.body        // req.body 는 요청 받은 데이터.
 
+    const newTodo = {
+      id: 4,
+      text: text,
+      checked: false,
+      createdAt: new Date()
+    }
+    // db에 새로운 newTodo 추가
+    const result = await db.collection(COLLECTION_NAME).insertOne(newTodo)
+    console.log(result)
+    // http://localhost:5000/api/todos 요청에 대한 응답
+    res.status(201).json({ ...newTodo, _id: result.insertedId })
+    //                            ㄴ 저장 처리 결과에 대한 응답데이터
+  } catch (error) {
+    res.status(500).json({ error: "서버오류-데이터 저장 실패" })
+  }
+})
 
 
 
