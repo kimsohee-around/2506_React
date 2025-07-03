@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import TodoList from './components/TodoList'
+import TodoInsert from './components/TodoInsert'
 
 export default function App() {
   // 할일 목록 배열
@@ -51,7 +52,7 @@ export default function App() {
 
   return (
     <div>
-      
+      <TodoInsert onInsert={handleInsert} />
       <TodoList
         todos={todos}
         onRemove={handleRemove}
