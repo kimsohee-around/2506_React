@@ -27,3 +27,10 @@ API 라우팅 테스트
 curl -X POST http://localhost:5000/api/todos ^
      -H "Content-Type: application/json" ^
      -d "{\"text\":\"과제하기\"}"
+
+
+3. 기존 todo 데이터의 checked 속성 수정 : PUT 방식. 단, url로 id 값 지정하는 방식
+
+curl -X PUT http://localhost:5000/api/todos/3 \
+  -H "Content-Type: application/json" \
+  -d "{\"checked\": false}"

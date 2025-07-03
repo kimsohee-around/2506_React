@@ -32,6 +32,7 @@ MongoClient.connect(MONGODB_URI)
 app.get("/api/todos", async (req, res) => {
   // 처리할 url : /api/todos    // 콜백함수 인자 req는 요청, res는 응답 정보 저장 객체
   try {
+    // find({조건}) 조건은 '속성이름:값' 형식. {}는 모든 것
     const todos = await db.collection(COLLECTION_NAME).find({})
       .toArray()
     res.json(todos)   //db에서 조회한 todos 배열을 json 형식 응답으로 보내기                              
@@ -46,8 +47,12 @@ app.post('/api/todos', async (req, res) => {
   try {
     const { text } = req.body        // req.body 는 요청 받은 데이터.
 
+    const maxTodo = await db.collection(COLLECTION_NAME)
+      .findOne({}, { sort: { id: -1 } })
+    const newId = maxTodo ? maxTodo.id + 1 : 1
+
     const newTodo = {
-      id: 4,
+      id: newId,
       text: text,
       checked: false,
       createdAt: new Date()
@@ -61,6 +66,33 @@ app.post('/api/todos', async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "서버오류-데이터 저장 실패" })
   }
+})
+
+// todo 의 checked 속성값 수정.(id 값 지정.)
+app.put('/api/todos/:id', async (req, res) => {
+  // :id 는 파라미터 이름. url 로 변수값을 전달하는 방법
+  try {
+    const todoId = Number(req.params.id)
+    const { checked } = req.body
+
+    const result = await db.collection(COLLECTION_NAME)
+      .updateOne(
+        { id: todoId },
+        {
+          $set: {
+            checked: checked
+          }
+        }
+      )
+    console.log(result)
+    res.json({ message: "checked 업데이트 완료!!" })
+
+
+  } catch (error) {
+    res.status(500).json({ error: "서버오류-데이터 checked 수정 실패!!" })
+  }
+
+
 })
 
 
