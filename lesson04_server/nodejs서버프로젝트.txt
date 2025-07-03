@@ -8,7 +8,21 @@ C:\Class250615\React\lesson04_server> npm init -y    (=> package.json)
 C:\Class250615\React\lesson04_server> npm install express mongodb cors
 
 프로젝트 실행 도구 설치 (서버 코드 변경시 알아서 재시작)
-C:\Class250615\React\lesson04_server>npm install -g nodemon
+C:\Class250615\React\lesson04_server> npm install -g nodemon
 
 프로젝트 실행
-C:\Class250615\React\lesson04_server>nodemon webserver.js
+C:\Class250615\React\lesson04_server> nodemon webserver.js
+
+
+API 라우팅 테스트
+
+1. 모든 todo 데이터 조회 : GET 방식.  http://localhost:5000/api/todos 주소
+   (브라우저에서 직접 주소 입력하여 실행)
+
+2. 새로운 todo 데이터 추가 : POST 방식.  http://localhost:5000/api/todos 주소.
+   (브라우저에서 테스트 못함. why? 백엔드에게 보낼 데이터 작성해야하므로.
+    => curl 명령어로 테스트)   
+
+curl -X POST http://localhost:5000/api/todos ^
+     -H "Content-Type: application/json" ^
+     -d '{"text": "백엔드 구현하기"}'
