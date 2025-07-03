@@ -4,6 +4,10 @@ import TodoInsert from './components/TodoInsert'
 import TodoTemplate from './components/TodoTemplate'
 
 export default function App() {
+  const renderCount = useRef(0) //useRef 는 리액트 함수(훅)
+  renderCount.current += 1
+  // 
+
   // 할일 목록 배열
   const initVal = [
     {
@@ -54,7 +58,8 @@ export default function App() {
   return (
     <div>
       <TodoTemplate>
-        {/* TodoInsert, TodoList 컴포넌트 */}
+        {/* TodoInsert, TodoList 컴포넌트 
+        => TodoTemplate 컴포넌트의 children 속성으로 사용할 수 있습니다. */}
         {/* 속성이름은 개발자가 정합니다. 속성의 값은 정의된 것으로 해야합니다. */}
         <TodoInsert onInsert={handleInsert} />
         <TodoList
@@ -63,6 +68,7 @@ export default function App() {
           onChecked={handleChecked}
         />
       </TodoTemplate>
+      <div> 렌더링 카운트 : {renderCount.current}</div>
     </div>
   )
 }
