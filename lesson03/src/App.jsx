@@ -54,6 +54,8 @@ export default function App() {
   return (
     <div>
       <TodoTemplate>
+        {/* TodoInsert, TodoList 컴포넌트 */}
+        {/* 속성이름은 개발자가 정합니다. 속성의 값은 정의된 것으로 해야합니다. */}
         <TodoInsert onInsert={handleInsert} />
         <TodoList
           todos={todos}
