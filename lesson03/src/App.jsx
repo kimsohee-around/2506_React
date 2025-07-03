@@ -3,10 +3,13 @@ import TodoList from './components/TodoList'
 import TodoInsert from './components/TodoInsert'
 import TodoTemplate from './components/TodoTemplate'
 
+//Day3_04 : 컴포넌트 리팩토링해서 사용
+//Day4_01 : children 속성 사용해서 완성함.
+//          useRef() 훅으로 재렌더링 횟수 비교(App_V1.jsx)
 export default function App() {
   const renderCount = useRef(0) //useRef 는 리액트 함수(훅)
   renderCount.current += 1
-  // 
+  //
 
   // 할일 목록 배열
   const initVal = [

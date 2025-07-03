@@ -10,6 +10,8 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     {/* <App /> */}
     {/* ref 훅 테스트 */}
+    {/* <FocusInput/> */}
+    {/* <EffectAndRef /> */}
     <PreviousValue />
   </StrictMode>
 )

@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
+// Day4_02 : useRef, useEffect 테스트
+//           useRef 는 input 요소에 사용 또는 단독을 이전값 사용을 위해서 정의
 export function FocusInput() {
   // 컴포넌트
   const inputRef = useRef(null)
@@ -70,11 +72,15 @@ export function EffectAndRef() {
 
 export function PreviousValue() {
   const [count, setCount] = useState(0)
+  // input 과 연결하지 않고 사용하는 예시.(value 속성 안씀.)
   const prevCount = useRef(0)
 
   useEffect(() => {
+    // useRef 로 만든 변수는 객체. current 속성으로 값 설정.
+    //
     prevCount.current = count
   }, [count])
+  // count 가 바뀔때마다 콜백함수 실행. [] 로 바꾸면 마운트할때 한번 실행
 
   return (
     <div>
