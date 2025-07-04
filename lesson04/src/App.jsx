@@ -31,12 +31,41 @@ export default function App() {
     fetchTodos()
   }, []) // 렌더링 후에 한번만 실행. useEffect는 side 기능 처리할때
 
-  // 🔥 상태변수 todos 변경
-  function handleChecked(id) {
-    const newtodos = todos.map((item) =>
-      item.id === id ? { ...item, checked: !item.checked } : item
-    )
-    setTodos(newtodos)
+  /*
+curl -X PUT http://localhost:5000/api/todos/33 ^
+  -H "Content-Type: application/json" ^
+  -d "{\"checked\": false}"
+  */
+  async function handleChecked(id) {
+    try {
+      // 기존 todos 에서 id 값에 해당하는 하나의 객체를 가져오기
+      // find 는 콜백함수 조건이 참인 1개만 리턴
+      const idTodo = todos.find((item) => item.id === id)
+      const newChecked = !idTodo.checked
+
+      setLoading(true)
+      const options = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ checked: newChecked })
+      }
+      // 백엔드 서버를 통해 db값 변경
+      const response = await fetch(`${API_BASE_URL}/${id}`, options)
+
+      if (response.ok) {
+        // 현재 상태값 변경 -> 화면
+        const newtodos = todos.map((item) =>
+          item.id === id ? { ...item, checked: !item.checked } : item
+        )
+        setTodos(newtodos)
+      } else {
+        console.error('데이터 todo checked 수정 실패!!!')
+      }
+    } catch (error) {
+      console.error('네트워크 오류:', error)
+    } finally {
+      setLoading(false)
+    }
   }
 
   // todos  할 일 객체 목록 중 삭제하기 // 🔥 상태변수 todos 변경
@@ -48,6 +77,11 @@ export default function App() {
   // 🔥화살표 함수 사용해보기  //
   // todos 에 할일 객체를 추가 // 🔥 상태변수 todos 변경
   const handleInsert = async (text) => {
+    if (!text.trim()) {
+      // text.trim() === ''
+      window.alert('할일 todo 입력 필수입니다.!')
+      return
+    }
     try {
       setLoading(true)
       const options = {
