@@ -1,12 +1,5 @@
-
-문제 : 
-새로운 컴포넌트 ScheduleTableEx.jsx 파일에
-schedules 데이터를 아래와 같이 바꾸어서 UI 를 만들어 보세요.
-(ScheduleTable 동일하게)
-단, todos 항목의 checked 속성값은 UI 에서 제외합니다.
-
 const schedules = [
-    {
+  {
     date: "2025-07-01",
     todos: [
       {
@@ -62,3 +55,28 @@ const schedules = [
     ]
   }
 ]
+
+console.log(schedules[0])
+console.log(schedules[0].date)
+console.log(schedules[0].todos)   // 배열
+console.log(schedules[0].todos[0])
+// 결론 : map 메소드를 실행하는 배열은 schedules , schedules[i].todos
+console.log(typeof schedules[0].todos[0])   // object. 속성은 time,text,checked
+console.log(schedules[0].todos[0].time)
+console.log(schedules[0].todos[0].text)
+console.log(schedules[0].todos[0].checked)
+
+schedules.map((item) => {
+  // 
+  console.log('-----------------------')
+  console.log(item.date)
+  console.log(item.todos)
+  item.todos.map((t) => {
+    console.log('\t\t~~~~~~~~~~~')
+    // console.log(typeof t)
+    console.log(t.time)
+    console.log(t.text)
+    console.log(t.checked)
+  })
+
+})
