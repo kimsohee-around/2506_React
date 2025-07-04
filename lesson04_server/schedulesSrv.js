@@ -21,6 +21,48 @@ MongoClient.connect(MONGODB_URI)
   .catch((error) => console.error('MongoDB 연결 실패:', error))
 
 /*
+  curl -X GET http://localhost:5000/api/todos
+  이 요청 schedules 컬렉션의 모든 documents(데이터)를 가져옵니다.
+*/
+app.get("/api/todos", async (req, resp) => {
+  try {
+    const docs = await db.collection(COLLECTION_NAME).find({}).toArray()
+    resp.status(200).json(docs)
+  } catch (error) {
+    resp.status(500).json({ error: "서버 오류가 발생했습니다." });
+  }
+})
+
+/*
+  curl -X GET http://localhost:5000/api/todos/2025-07-09
+  이 요청은 2025-07-09 날짜의 데이터를 가져옵니다.
+*/
+app.get('/api/todos/:date', async (req, resp) => {
+  try {
+    // date 날짜 파라미터 저장하기
+    const { date } = req.params
+
+    // 날짜 형식 검증
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!dateRegex.test(date)) {
+      return resp.status(400).json({
+        error: "날짜 형식이 올바르지 않습니다. YYYY-MM-DD 형식을 사용해주세요.",
+      });
+    }
+
+    // 해당 날짜값으로 조회하기
+    const docs = await db.collection(COLLECTION_NAME).findOne({ date: date })
+    resp.status(200).json(docs)
+  } catch (error) {
+    resp.status(500).json({ error: "서버 오류가 발생했습니다." });
+  }
+})
+
+app.listen(PORT, () => {
+  console.log(`서버가 포트 ${PORT} 에서 실행 중 입니다.`);
+})
+
+/*
 curl -X PUT http://localhost:5000/api/todos/2025-07-09 ^
   -H "Content-Type: application/json" ^
   -d "{  \"time\": \"15:00\", \"text\": \"운동\", \"checked\": false }"

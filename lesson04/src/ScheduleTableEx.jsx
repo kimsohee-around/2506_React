@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import schedules from './schedules.json'
+// schedules.json  문자열이 JS 객체로 import 됩니다. 변수명은 임의로 지정
 
 export default function ScheduleTable() {
   // schedule 는 상태 변수. 버튼을 클릭할 때마다 schedule 이 저장하는
