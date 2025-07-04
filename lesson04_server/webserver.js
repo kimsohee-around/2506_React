@@ -2,6 +2,8 @@ import express, { json } from 'express'
 import { MongoClient } from 'mongodb'
 import cors from 'cors'
 
+// Day4_03 🔥nodejs 백엔드(WAS) <-> 몽고DB 서버 
+
 // 웹프레임워크(서버) 실행을 위한 객체 생성
 const app = express()
 const PORT = 5000     // 클라이언트 -> nodejs 백엔드 서버 연결 포트

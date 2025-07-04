@@ -9,6 +9,10 @@ export default function App() {
   const [todos, setTodos] = useState([])
   const [loading, setLoading] = useState(false) // fetch 실행 중이면 true
 
+  //  Day5_01🔥리액트 웹서버 <-> nodejs 백엔드(WAS)
+  /*
+   curl -X GET http://localhost:5000/api/todos
+  */
   const fetchTodos = async () => {
     try {
       setLoading(true) // fetch 시작~~~
@@ -68,18 +72,15 @@ curl -X PUT http://localhost:5000/api/todos/33 ^
     }
   }
 
-  // todos  할 일 객체 목록 중 삭제하기 // 🔥 상태변수 todos 변경
+  // curl -X DELETE http://localhost:5000/api/todos/3
   async function handleRemove(id) {
-    const newtodos = todos.filter((item) => item.id !== id)
-    setTodos(newtodos)
     try {
       setLoading(true)
       //options 두 번째 인자는 객체 직접 사용 가능합니다.
       const resp = await fetch(`${API_BASE_URL}/${id}`, { method: 'DELETE' })
       if (resp.ok) {
         // 재렌더링을 위해 상태값 todos 변경
-        const newtodos = todos.filter((item) => item.id !== id)
-        setTodos(newtodos)
+        fetchTodos()
       } else {
         console.error('데이터 todo 삭제 실패!!!')
       }
@@ -90,8 +91,11 @@ curl -X PUT http://localhost:5000/api/todos/33 ^
     }
   }
 
-  // 🔥화살표 함수 사용해보기  //
-  // todos 에 할일 객체를 추가 // 🔥 상태변수 todos 변경
+  /*
+curl -X POST http://localhost:5000/api/todos ^
+     -H "Content-Type: application/json" ^
+     -d "{\"text\":\"과제하기1\"}"
+*/
   const handleInsert = async (text) => {
     if (!text.trim()) {
       // text.trim() === ''
