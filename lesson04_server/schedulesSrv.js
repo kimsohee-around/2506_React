@@ -66,7 +66,12 @@ app.listen(PORT, () => {
 curl -X PUT http://localhost:5000/api/todos/2025-07-09 ^
   -H "Content-Type: application/json" ^
   -d "{  \"time\": \"15:00\", \"text\": \"운동\", \"checked\": false }"
-이 요청은 2025-07-09 날짜의 todos 배열에 새 '운동' 항목을 추가합니다.
+이 요청은 2025-07-09 날짜의 todos 배열에 새 '운동' 항목을 추가(기존배열 수정)합니다.
+
+curl -X PUT http://localhost:5000/api/todos/2025-07-11 ^
+  -H "Content-Type: application/json" ^
+  -d "{  \"time\": \"08:00\", \"text\": \"운동\", \"checked\": false }"
+이 요청은 2025-07-11 날짜의 데이터가 없습니다. 새롭게 날짜 요소를 추가합니다.
 */
 app.put("/api/todos/:date", async (req, res) => {
   try {
@@ -132,4 +137,81 @@ app.put("/api/todos/:date", async (req, res) => {
     console.error("MongoDB 오류:", error);
     res.status(500).json({ error: "서버 오류가 발생했습니다." });
   }
-});  
+});
+
+/*
+curl -X DELETE http://localhost:5000/api/todos/ ^
+  -H "Content-Type: application/json" ^
+  -d "{  \"time\": \"15:00\", \"date\": \"2025-07-09\"  }"
+
+이 요청은 2025-07-09 날짜의 todos 배열에 time "15:00" 을 삭제합니다.  
+
+
+curl -X DELETE http://localhost:5000/api/todos/ ^
+  -H "Content-Type: application/json" ^
+  -d "{ \"date\": \"2025-07-11\"  }"
+이 요청은 2025-07-11 날짜 요소를 삭제합니다.
+*/
+app.delete("/api/todos/", async (req, res) => {
+  try {
+    const { date, time } = req.body;
+
+    // 날짜 형식 검증
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!dateRegex.test(date)) {
+      return res.status(400).json({
+        error: "날짜 형식이 올바르지 않습니다. YYYY-MM-DD 형식을 사용해주세요.",
+      });
+    }
+
+    const collection = db.collection(COLLECTION_NAME);
+
+    // 해당 날짜 문서에서 시간대가 일치하는 항목 삭제
+    if (time) {
+      // 시간 형식 검증 (예: 13:00)
+      const timeRegex = /^\d{2}:\d{2}$/;
+      if (!timeRegex.test(time)) {
+        return res.status(400).json({
+          error: "시간 형식이 올바르지 않습니다. HH:MM 형식을 사용해주세요.",
+        });
+      }
+
+      const result = await collection.updateOne(
+        { date: date },
+        { $pull: { todos: { time: time } } }
+      );
+
+      if (result.matchedCount === 0) {
+        return res
+          .status(404)
+          .json({ error: "해당 날짜의 문서를 찾을 수 없습니다." });
+      }
+
+      if (result.modifiedCount === 0) {
+        return res
+          .status(404)
+          .json({ error: "해당 시간의 todo 항목을 찾을 수 없습니다." });
+      }
+
+      res.status(200).json({
+        message: `${date}의 ${time} 항목이 삭제되었습니다.`,
+      });
+    } else {   // 시간값이 없는 경우
+      // 전체 날짜 문서 삭제
+      const result = await collection.deleteOne({ date: date });
+
+      if (result.deletedCount === 0) {
+        return res
+          .status(404)
+          .json({ error: "해당 날짜의 문서를 찾을 수 없습니다." });
+      }
+
+      return res.status(200).json({
+        message: `${date} 날짜의 모든 항목이 삭제되었습니다.`,
+      });
+    }
+  } catch (error) {
+    console.error("MongoDB 오류:", error);
+    res.status(500).json({ error: "서버 오류가 발생했습니다." });
+  }
+});
