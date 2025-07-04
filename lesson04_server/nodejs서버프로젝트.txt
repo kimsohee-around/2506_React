@@ -30,7 +30,7 @@ curl -X GET http://localhost:5000/api/todos
 <주의 : 윈도우에서는 아래와 같이 기호 사용할 것>
 curl -X POST http://localhost:5000/api/todos ^
      -H "Content-Type: application/json" ^
-     -d "{\"text\":\"과제하기\"}"
+     -d "{\"text\":\"과제하기1\"}"
 
 
 3. 기존 todo 데이터의 checked 속성 수정 : PUT 방식. 단, url로 id 값 지정하는 방식

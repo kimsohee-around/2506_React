@@ -1,0 +1,89 @@
+import { useEffect, useRef, useState } from 'react'
+import TodoList from './components/TodoList'
+import TodoInsert from './components/TodoInsert'
+import TodoTemplate from './components/TodoTemplate'
+// npm i sass react-icons
+export default function App() {
+  // 백엔드 서버에 접속해서 데이터 가져오기
+  const API_BASE_URL = 'http://localhost:5000/api/todos'
+  const [todos, setTodos] = useState([])
+  const [loading, setLoading] = useState(false) // fetch 실행 중이면 true
+
+  const fetchTodos = async () => {
+    try {
+      setLoading(true) // fetch 시작~~~
+      const response = await fetch(API_BASE_URL) // GET 요청 , 두번째 인자(입력)X
+      if (response.ok) {
+        const data = await response.json()
+        setTodos(data)
+        console.log(data)
+      } else {
+        console.error('데이터 가져오기 실패')
+      }
+    } catch (error) {
+      console.error('네트워크 오류:', error)
+    } finally {
+      // try{ } 구문 끝나면 실행
+      setLoading(false)
+    }
+  }
+  useEffect(() => {
+    fetchTodos()
+  }, []) // 렌더링 후에 한번만 실행. useEffect는 side 기능 처리할때
+
+  // 🔥 상태변수 todos 변경
+  function handleChecked(id) {
+    const newtodos = todos.map((item) =>
+      item.id === id ? { ...item, checked: !item.checked } : item
+    )
+    setTodos(newtodos)
+  }
+
+  // todos  할 일 객체 목록 중 삭제하기 // 🔥 상태변수 todos 변경
+  function handleRemove(id) {
+    const newtodos = todos.filter((item) => item.id !== id)
+    setTodos(newtodos)
+  }
+
+  // 🔥화살표 함수 사용해보기  //
+  // todos 에 할일 객체를 추가 // 🔥 상태변수 todos 변경
+  const handleInsert = async (text) => {
+    try {
+      setLoading(true)
+      const options = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: text })
+      }
+      // "{\"text\":\"과제하기\"}" => json 문자열 (데이터를 송수신할 때 문자열로 합니다.)
+      //JSON.stringify : JS객체 {text: "과제하기"} 를 json 문자열로 변환
+      const response = await fetch(API_BASE_URL, options)
+      if (response.ok) {
+        const newTodo = await response.json()
+        setTodos([...todos, newTodo])
+      } else {
+        console.error('데이터 todo 추가 실패!!!')
+      }
+    } catch (error) {
+      console.error('네트워크 오류:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div>
+      <TodoTemplate>
+        {/* TodoInsert, TodoList 컴포넌트 
+        => TodoTemplate 컴포넌트의 children 속성으로 사용할 수 있습니다. */}
+        {/* 속성이름은 개발자가 정합니다. 속성의 값은 정의된 것으로 해야합니다. */}
+        <TodoInsert onInsert={handleInsert} />
+        <TodoList
+          todos={todos}
+          onRemove={handleRemove}
+          onChecked={handleChecked}
+        />
+      </TodoTemplate>
+    </div>
+  )
+}

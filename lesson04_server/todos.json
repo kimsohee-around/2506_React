@@ -1,0 +1,35 @@
+[
+  {
+    "_id": "68661b94c9571abc8094d618",
+    "id": 1,
+    "text": "리액트 수업 복습",
+    "checked": true
+  },
+  {
+    "_id": "68661b94c9571abc8094d619",
+    "id": 2,
+    "text": "리액트 프로젝트 기획",
+    "checked": false
+  },
+  {
+    "_id": "68662f16c9e425afec99b578",
+    "id": 4,
+    "text": "백엔드 구현하기",
+    "checked": false,
+    "createdAt": "2025-07-03T07:19:50.641Z"
+  },
+  {
+    "_id": "6866348366caf6a158d59b13",
+    "id": 6,
+    "text": "운동하기",
+    "checked": false,
+    "createdAt": "2025-07-03T07:42:59.835Z"
+  },
+  {
+    "_id": "686634ab66caf6a158d59b14",
+    "id": 7,
+    "text": "노션 학습",
+    "checked": false,
+    "createdAt": "2025-07-03T07:43:39.139Z"
+  }
+]
