@@ -69,9 +69,25 @@ curl -X PUT http://localhost:5000/api/todos/33 ^
   }
 
   // todos  할 일 객체 목록 중 삭제하기 // 🔥 상태변수 todos 변경
-  function handleRemove(id) {
+  async function handleRemove(id) {
     const newtodos = todos.filter((item) => item.id !== id)
     setTodos(newtodos)
+    try {
+      setLoading(true)
+      //options 두 번째 인자는 객체 직접 사용 가능합니다.
+      const resp = await fetch(`${API_BASE_URL}/${id}`, { method: 'DELETE' })
+      if (resp.ok) {
+        // 재렌더링을 위해 상태값 todos 변경
+        const newtodos = todos.filter((item) => item.id !== id)
+        setTodos(newtodos)
+      } else {
+        console.error('데이터 todo 삭제 실패!!!')
+      }
+    } catch (error) {
+      console.error('네트워크 오류:', error)
+    } finally {
+      setLoading(false)
+    }
   }
 
   // 🔥화살표 함수 사용해보기  //
