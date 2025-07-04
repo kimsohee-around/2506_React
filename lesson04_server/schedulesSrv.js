@@ -1,0 +1,93 @@
+import express, { json } from 'express'
+import { MongoClient } from 'mongodb'
+import cors from 'cors'
+
+const app = express()
+const PORT = 5000
+
+app.use(cors())
+app.use(json())
+
+const MONGODB_URI = 'mongodb://localhost:27017/'
+const DB_NAME = 'react01'
+const COLLECTION_NAME = 'schedules'
+
+let db
+MongoClient.connect(MONGODB_URI)
+  .then((client) => {
+    db = client.db(DB_NAME);
+    console.log('MongoDB 연결 성공!!!')
+  })
+  .catch((error) => console.error('MongoDB 연결 실패:', error))
+
+/*
+curl -X PUT http://localhost:5000/api/todos/2025-07-09 ^
+  -H "Content-Type: application/json" ^
+  -d "{  \"time\": \"15:00\", \"text\": \"운동\", \"checked\": false }"
+이 요청은 2025-07-09 날짜의 todos 배열에 새 '운동' 항목을 추가합니다.
+*/
+app.put("/api/todos/:date", async (req, res) => {
+  try {
+    const { date } = req.params; // URL에서 날짜 추출
+    const newTodo = req.body; // 요청 본문에서 새 todo 항목 추출
+
+    // 날짜 형식 검증
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!dateRegex.test(date)) {
+      return res.status(400).json({
+        error: "날짜 형식이 올바르지 않습니다. YYYY-MM-DD 형식을 사용해주세요.",
+      });
+    }
+
+    // 새 todo 항목 검증
+    if (
+      !newTodo.time ||
+      !newTodo.text ||
+      typeof newTodo.checked !== "boolean"
+    ) {
+      return res.status(400).json({
+        error: "time, text, checked 필드가 모두 필요합니다.",
+      });
+    }
+
+    const collection = db.collection(COLLECTION_NAME);
+
+    // 해당 날짜의 문서가 존재하는지 확인
+    const existingDoc = await collection.findOne({ date: date });
+
+    if (existingDoc) {
+      // 문서가 존재하면 todos 배열에 새 항목 추가
+      const result = await collection.updateOne(
+        { date: date },
+        { $push: { todos: newTodo } }
+      );
+
+      if (result.matchedCount === 0) {
+        return res
+          .status(404)
+          .json({ error: "해당 날짜의 문서를 찾을 수 없습니다." });
+      }
+
+      res.status(200).json({
+        message: "새 todo 항목이 추가되었습니다.",
+        modifiedCount: result.modifiedCount,
+      });
+    } else {
+      // 문서가 존재하지 않으면 새 문서 생성
+      const newDoc = {
+        date: date,
+        todos: [newTodo],
+      };
+
+      const result = await collection.insertOne(newDoc);
+
+      res.status(201).json({
+        message: "새 날짜 문서와 todo 항목이 생성되었습니다.",
+        insertedId: result.insertedId,
+      });
+    }
+  } catch (error) {
+    console.error("MongoDB 오류:", error);
+    res.status(500).json({ error: "서버 오류가 발생했습니다." });
+  }
+});  
