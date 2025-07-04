@@ -39,6 +39,7 @@ export default function ScheduleTable() {
       style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}
     >
       <div style={{ marginTop: "1rem", marginBottom: "1rem" }}>
+        {/* sch 객체는 date,time(배열),todo(배열) */}
         {schedules.map((sch, idx) => (
           <button
             key={idx}
