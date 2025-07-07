@@ -55,6 +55,96 @@ export default function Schedules() {
     // setSelectedSchedule() 는 선택된 날짜의 객체를 지정. 위 함수안에서 실행
   }
 
+   const updateCheckedData = async (time, checked) => {
+    console.log("*", time, checked);
+    try {
+      setLoading(true);
+      const options = {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          date: selectedSchedule.date,
+          time: time,
+          checked: !checked,
+        }),
+      };
+      const resp = await fetch(API_BASE_URL, options);
+      if (resp.ok) {
+        const data = await resp.json();
+        console.log(data.message);
+        handleChecked(time);
+      }
+    } catch (error) {
+      console.log("updateCheckedData error:", error``);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleChecked = (time) => {
+    const newtodos = selectedSchedule.todos.map((item) =>
+      item.time === time ? { ...item, checked: !item.checked } : item
+    );
+    const updatedSchedule = {
+      ...selectedSchedule,
+      todos: newtodos,
+    };
+
+    setSelectedSchedule(updatedSchedule);
+
+    // schedules 상태도 업데이트
+    setSchedules((prevSchedules) =>
+      prevSchedules.map((item) =>
+        item.date === selectedSchedule.date ? updatedSchedule : item
+      )
+    );
+  };
+
+  const deleteTimeData = async (time) => {
+    try {
+      setLoading(true);
+      const options = {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          date: selectedSchedule.date,
+          time: time,
+        }),
+      };
+      const resp = await fetch(API_BASE_URL, options);
+      if (resp.ok) {
+        const data = await resp.json();
+        console.log(data.message);
+        handleRemoved(time);
+      }
+    } catch (error) {
+      console.log("deleteTimeData error:", error``);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRemoved = (time) => {
+    const removedTodos = selectedSchedule.todos.filter(
+      (item) => item.time !== time
+    );
+
+    const updatedSchedule = {
+      date: selectedSchedule.date,
+      todos: removedTodos,
+    };
+    setSelectedSchedule(updatedSchedule);
+
+    // schedules 상태도 업데이트
+    setSchedules((prevSchedules) =>
+      prevSchedules.map((item) =>
+        item.date === selectedSchedule.date ? updatedSchedule : item
+      )
+    );
+  };
+
+
+
   if (loading) {
     return <div>.....loading.....</div>
   }
