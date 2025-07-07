@@ -1,11 +1,31 @@
 import { useState } from 'react'
-import schedules from './schedules.json'
 // schedules.json  문자열이 JS 객체로 import 됩니다. 변수명은 임의로 지정
 
 export default function Schedules() {
-  // schedule 는 상태 변수. 버튼을 클릭할 때마다 schedule 이 저장하는
-  // 객체가 바뀝니다.
-  const [schedule, setSchedule] = useState(schedules[0])
+  // 모든 데이터 저장
+  const [schedules, setSchedules] = useState(null)
+  // 선택된 날짜의 데이터
+  const [selectedSchedule, setSelectedSchedule] = useState(null)
+  const [loading, setLoading] = useState(false)
+
+  const API_BASE_URL = 'http://localhost:5001/api/schedules'
+
+  // 전체 가져오는 fetch 함수
+  const loadData = async () => {
+    try {
+      setLoading(true)
+      const resp = await fetch(`${API_BASE_URL}`)
+      if (resp.ok) {
+        const data = await resp.json()
+        setSchedules(data)
+        setSelectedSchedule(data[0]) //선택된 날짜는 첫번째 데이터로 상태값 설정
+      }
+    } catch (error) {
+      console.log('error:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const handleSelected = (idx) => {
     setSchedule(schedules[idx])
