@@ -83,10 +83,13 @@ export default function Schedules() {
   }
 
   // check 변경 후에 상태값 변수 schedules, selectedSchedule 변경
+  //                    (db와 동일한 값으로 변경)
   const handleChecked = (time) => {
     const newtodos = selectedSchedule.todos.map((item) =>
       item.time === time ? { ...item, checked: !item.checked } : item
     )
+    // 삭제할 때 updatedSchedule 코드 보다
+    // 더 좋은 코드입니다. (why? 여러 속성값을 복사하는 경우가 많기 때문에)
     const updatedSchedule = {
       ...selectedSchedule,
       todos: newtodos
@@ -187,6 +190,26 @@ export default function Schedules() {
             {sch.date}
           </button>
         ))}
+      </div>
+      <hr />
+      <div>
+        <input
+          type='date'
+          value={newDate}
+          onChange={(e) => setNewDate(e.target.value)}
+        />
+        <input
+          type='time'
+          value={newTime}
+          onChange={(e) => setNewTime(e.target.value)}
+        />
+        <input
+          type='text'
+          placeholder='내용을 입력하세요.'
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
+        <button onClick={}>저장</button>
       </div>
       <hr />
       <h3 style={{ color: '#333', marginBottom: '1rem' }}>
