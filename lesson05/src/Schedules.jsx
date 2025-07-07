@@ -8,6 +8,10 @@ export default function Schedules() {
   // 선택된 날짜의 데이터
   const [selectedSchedule, setSelectedSchedule] = useState(null)
   const [loading, setLoading] = useState(false)
+  // input 요소에 필요한 state 선언
+  const [newDate, setNewDate] = useState('')
+  const [newTime, setNewTime] = useState('13:00') // 편의상 초기값 설정
+  const [text, setText] = useState('')
 
   const API_BASE_URL = 'http://localhost:5001/api/schedules'
 
@@ -21,6 +25,7 @@ export default function Schedules() {
         const data = await resp.json()
         setSchedules(data)
         setSelectedSchedule(data[0]) //선택된 날짜는 첫번째 데이터로 상태값 설정
+        setNewDate(data[0].date)
       }
     } catch (error) {
       console.log('error:', error)
@@ -29,14 +34,15 @@ export default function Schedules() {
     }
   }
 
-  //선택한 날짜 -
+  //선택한 날짜 - 날짜 버튼 클릭.
   const selectedData = async (selectedDate) => {
     try {
       setLoading(true)
       const resp = await fetch(`${API_BASE_URL}/${selectedDate}`)
       if (resp.ok) {
         const data = await resp.json()
-        setSelectedSchedule(data)
+        setSelectedSchedule(data) // 비동기함수
+        setNewDate(selectedDate) // 비동기함수
       }
     } catch (error) {
       console.log('error:', error)
@@ -149,6 +155,67 @@ export default function Schedules() {
     )
   }
 
+  // 상태값으로 선언된 입력값들을 가져와서 put 요청을 보냅니다.
+  const addTimeData = async () => {
+    try {
+      setLoading(true)
+      const options = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          time: newTime,
+          text: text,
+          checked: false
+        })
+      }
+      const resp = await fetch(`${API_BASE_URL}/${newDate}`, options)
+      if (resp.ok) {
+        const data = await resp.json()
+        console.log(data.message)
+        // handleAdd()  // 상태값 바꾸기 대신에 다시 해당 날짜로 fetch
+      }
+    } catch (error) {
+      console.log('updateCheckedData error:', error``)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handelAdd = () => {
+          const newTodo = { time: newTime, text: text, checked: false };
+        // 기존 날짜가 있는지 확인 (수정됨)
+        const existingSchedule = schedules.find(
+          (item) => item.date === newDate
+        );
+        console.log(existingSchedule, "**");
+        if (!existingSchedule) {
+          const newSchedule = { date: newDate, todos: [newTodo] };
+          setSchedules((schedules) => schedules.concat(newSchedule));
+
+          // setSchedules((prevSchedules) => [...prevSchedules, newSchedule]);
+          setSelectedSchedule(newSchedule);
+        } else {
+          // 기존 날짜인 경우 - 기존 스케줄에 todo 추가 (수정됨)
+          const updatedSchedules = schedules.map((item) =>
+            item.date === newDate
+              ? { ...item, todos: [...item.todos, newTodo] }
+              : item
+          );
+          setSchedules(updatedSchedules);
+          console.log(schedules, "**");
+
+          // selectedSchedule도 업데이트
+          const updatedSelectedSchedule = {
+            ...existingSchedule,
+            todos: [...existingSchedule.todos, newTodo],
+          };
+          console.log(updatedSelectedSchedule, "**");
+          setSelectedSchedule(updatedSelectedSchedule);
+        }
+        setText("");
+        setNewTime("13:00");
+  }
+
   if (loading) {
     return <div>.....loading.....</div>
   }
@@ -209,7 +276,7 @@ export default function Schedules() {
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
-        <button onClick={}>저장</button>
+        <button onClick={addTimeData}>저장</button>
       </div>
       <hr />
       <h3 style={{ color: '#333', marginBottom: '1rem' }}>
