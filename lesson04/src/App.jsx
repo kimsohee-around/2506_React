@@ -37,8 +37,8 @@ export default function App() {
 
   /*
 curl -X PUT http://localhost:5000/api/todos/33 ^
-  -H "Content-Type: application/json" ^
-  -d "{\"checked\": false}"
+    -H "Content-Type: application/json" ^
+    -d "{\"checked\": false}"
   */
   async function handleChecked(id) {
     try {
@@ -50,7 +50,9 @@ curl -X PUT http://localhost:5000/api/todos/33 ^
       setLoading(true)
       const options = {
         method: 'PUT',
+        // 서버로 전송하는 데이터의 유형이 json 
         headers: { 'Content-Type': 'application/json' },
+        // JS 객체를 json 문자열로 변환하여 전송
         body: JSON.stringify({ checked: newChecked })
       }
       // 백엔드 서버를 통해 db값 변경

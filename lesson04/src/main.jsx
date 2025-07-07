@@ -6,8 +6,8 @@ import ScheduleTable from './ScheduleTable.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    {/* <App /> */}
+    <App />
     {/* useState 복습 */}
-    <ScheduleTable />
+    {/* <ScheduleTable /> */}
   </StrictMode>
 )
