@@ -172,7 +172,7 @@ export default function Schedules() {
       if (resp.ok) {
         const data = await resp.json()
         console.log(data.message)
-        // handleAdd()  // 상태값 바꾸기 대신에 다시 해당 날짜로 fetch
+        handleAdd() // 상태값 바꾸기 대신에 다시 해당 날짜로 fetch
       }
     } catch (error) {
       console.log('updateCheckedData error:', error``)
@@ -181,39 +181,40 @@ export default function Schedules() {
     }
   }
 
-  const handelAdd = () => {
-          const newTodo = { time: newTime, text: text, checked: false };
-        // 기존 날짜가 있는지 확인 (수정됨)
-        const existingSchedule = schedules.find(
-          (item) => item.date === newDate
-        );
-        console.log(existingSchedule, "**");
-        if (!existingSchedule) {
-          const newSchedule = { date: newDate, todos: [newTodo] };
-          setSchedules((schedules) => schedules.concat(newSchedule));
+  // 추가된 todo 항목 하나를 상태값 변수 schedules , selectedSchedules 에 반영
+  const handleAdd = () => {
+    const newTodo = { time: newTime, text: text, checked: false }
+    // 기존 날짜가 있는지 확인. 있으면 해당 객체가 existingSchedule 에 저장.
+    const existingSchedule = schedules.find((item) => item.date === newDate)
+    console.log(existingSchedule, '**')
+    if (!existingSchedule) {
+      // existingSchedule 없으면 새로운 날짜 객체를 생성
+      const newSchedule = { date: newDate, todos: [newTodo] }
+      // 기존 schedules 에 새로운 날짜 객체 추가하기
+      setSchedules((schedules) => schedules.concat(newSchedule))
+      // setSchedules((prevSchedules) => [...prevSchedules, newSchedule]);
 
-          // setSchedules((prevSchedules) => [...prevSchedules, newSchedule]);
-          setSelectedSchedule(newSchedule);
-        } else {
-          // 기존 날짜인 경우 - 기존 스케줄에 todo 추가 (수정됨)
-          const updatedSchedules = schedules.map((item) =>
-            item.date === newDate
-              ? { ...item, todos: [...item.todos, newTodo] }
-              : item
-          );
-          setSchedules(updatedSchedules);
-          console.log(schedules, "**");
+      setSelectedSchedule(newSchedule)
+    } else {
+      // 기존 날짜인 경우 - 기존 스케줄에 todo 추가 (수정됨)
+      const updatedSchedules = schedules.map((item) =>
+        item.date === newDate
+          ? { ...item, todos: [...item.todos, newTodo] }
+          : item
+      )
+      setSchedules(updatedSchedules)
+      console.log(schedules, '**')
 
-          // selectedSchedule도 업데이트
-          const updatedSelectedSchedule = {
-            ...existingSchedule,
-            todos: [...existingSchedule.todos, newTodo],
-          };
-          console.log(updatedSelectedSchedule, "**");
-          setSelectedSchedule(updatedSelectedSchedule);
-        }
-        setText("");
-        setNewTime("13:00");
+      // selectedSchedule도 업데이트
+      const updatedSelectedSchedule = {
+        ...existingSchedule,
+        todos: [...existingSchedule.todos, newTodo]
+      }
+      console.log(updatedSelectedSchedule, '**')
+      setSelectedSchedule(updatedSelectedSchedule)
+    }
+    setText('')
+    setNewTime('13:00')
   }
 
   if (loading) {
