@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import TodosList from './TodoList'
 // schedules.json  문자열이 JS 객체로 import 됩니다. 변수명은 임의로 지정
 
 export default function Schedules() {
@@ -55,95 +56,94 @@ export default function Schedules() {
     // setSelectedSchedule() 는 선택된 날짜의 객체를 지정. 위 함수안에서 실행
   }
 
-   const updateCheckedData = async (time, checked) => {
-    console.log("*", time, checked);
+  const updateCheckedData = async (time, checked) => {
+    console.log('*', time, checked)
     try {
-      setLoading(true);
+      setLoading(true)
       const options = {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           date: selectedSchedule.date,
           time: time,
-          checked: !checked,
-        }),
-      };
-      const resp = await fetch(API_BASE_URL, options);
+          checked: !checked
+        })
+      }
+      const resp = await fetch(API_BASE_URL, options)
       if (resp.ok) {
-        const data = await resp.json();
-        console.log(data.message);
-        handleChecked(time);
+        const data = await resp.json()
+        console.log(data.message)
+        handleChecked(time)
       }
     } catch (error) {
-      console.log("updateCheckedData error:", error``);
+      console.log('updateCheckedData error:', error``)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
+  // check 변경 후에 상태값 변수 schedules, selectedSchedule 변경
   const handleChecked = (time) => {
     const newtodos = selectedSchedule.todos.map((item) =>
       item.time === time ? { ...item, checked: !item.checked } : item
-    );
+    )
     const updatedSchedule = {
       ...selectedSchedule,
-      todos: newtodos,
-    };
+      todos: newtodos
+    }
 
-    setSelectedSchedule(updatedSchedule);
+    setSelectedSchedule(updatedSchedule)
 
     // schedules 상태도 업데이트
     setSchedules((prevSchedules) =>
       prevSchedules.map((item) =>
         item.date === selectedSchedule.date ? updatedSchedule : item
       )
-    );
-  };
+    )
+  }
 
   const deleteTimeData = async (time) => {
     try {
-      setLoading(true);
+      setLoading(true)
       const options = {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           date: selectedSchedule.date,
-          time: time,
-        }),
-      };
-      const resp = await fetch(API_BASE_URL, options);
+          time: time
+        })
+      }
+      const resp = await fetch(API_BASE_URL, options)
       if (resp.ok) {
-        const data = await resp.json();
-        console.log(data.message);
-        handleRemoved(time);
+        const data = await resp.json()
+        console.log(data.message)
+        handleRemoved(time)
       }
     } catch (error) {
-      console.log("deleteTimeData error:", error``);
+      console.log('deleteTimeData error:', error``)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
-
+  }
+  // 특정 날짜, 시간 todos 항목 삭제 후 상태값 변수 schedules, selectedSchedule 변경
   const handleRemoved = (time) => {
     const removedTodos = selectedSchedule.todos.filter(
       (item) => item.time !== time
-    );
+    )
 
     const updatedSchedule = {
       date: selectedSchedule.date,
-      todos: removedTodos,
-    };
-    setSelectedSchedule(updatedSchedule);
+      todos: removedTodos
+    }
+    setSelectedSchedule(updatedSchedule)
 
     // schedules 상태도 업데이트
     setSchedules((prevSchedules) =>
       prevSchedules.map((item) =>
         item.date === selectedSchedule.date ? updatedSchedule : item
       )
-    );
-  };
-
-
+    )
+  }
 
   if (loading) {
     return <div>.....loading.....</div>
@@ -191,37 +191,11 @@ export default function Schedules() {
       <h3 style={{ color: '#333', marginBottom: '1rem' }}>
         {selectedSchedule.date}
       </h3>
-      <table border='1' style={{ width: '100%', borderCollapse: 'collapse' }}>
-        <thead>
-          <tr>
-            {selectedSchedule.todos.map((t, idx) => (
-              <th
-                // key는 중복되지 않는 유일한 값으로 합니다.(요소의 변수처럼 취급)
-                key={`time-${idx}`}
-                style={{
-                  backgroundColor: '#f8f9fa',
-                  padding: '10px',
-                  textAlign: 'center'
-                }}
-              >
-                {t.time}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            {selectedSchedule.todos.map((t, idx) => (
-              <td
-                key={`todo-${idx}`}
-                style={{ padding: '10px', textAlign: 'center' }}
-              >
-                {t.text}
-              </td>
-            ))}
-          </tr>
-        </tbody>
-      </table>
+      <TodosList
+        todos={selectedSchedule.todos}
+        onCheckedUpdate={updateCheckedData}
+        onRemoved={deleteTimeData}
+      />
     </div>
   )
 }
