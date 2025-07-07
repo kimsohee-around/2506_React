@@ -217,9 +217,9 @@ app.delete("/api/schedules/", async (req, res) => {
 });
 
 /*
-curl -X PATCH http://localhost:5000/api/schedules ^
+curl -X PATCH http://localhost:5001/api/schedules ^
   -H "Content-Type: application/json" ^
-  -d "{ \"date\": \"2025-07-09\",  \"time\": \"14:00\", \"checked\": false }"
+  -d "{ \"date\": \"2025-07-09\",  \"time\": \"14:00\", \"checked\": true }"
 
   이 요청은 날짜 2025-07-09, 시간 14:00 의 checked 를 false 로 변경합니다.
 */
@@ -255,7 +255,14 @@ app.patch('/api/schedules', async (req, resp) => {
 
     console.log('patch result:', result)
 
-    resp.status(200).json({ message: `${date} ${time} ${checked} 변경완료.` })
+    if (result.matchedCount === 0) {
+      return resp.status(404).json({ error: "해당 날짜의 문서를 찾을 수 없습니다." })
+    }
+
+    resp.status(200).json({
+      message: `${date} ${time} ${checked} 변경완료.`,
+      modifiedCount: result.modifiedCount   // 업데이트 정상이면 1
+    })
 
   } catch (error) {
     console.error("Mongo Db 오류 : ", error)
