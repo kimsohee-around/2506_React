@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 // schedules.json  문자열이 JS 객체로 import 됩니다. 변수명은 임의로 지정
 
 export default function Schedules() {
@@ -15,6 +15,7 @@ export default function Schedules() {
     try {
       setLoading(true)
       const resp = await fetch(`${API_BASE_URL}`)
+      console.log(resp)
       if (resp.ok) {
         const data = await resp.json()
         setSchedules(data)
@@ -27,8 +28,45 @@ export default function Schedules() {
     }
   }
 
-  const handleSelected = (idx) => {
-    setSchedule(schedules[idx])
+  //선택한 날짜 -
+  const selectedData = async (selectedDate) => {
+    try {
+      setLoading(true)
+      const resp = await fetch(`${API_BASE_URL}/${selectedDate}`)
+      if (resp.ok) {
+        const data = await resp.json()
+        setSelectedSchedule(data)
+      }
+    } catch (error) {
+      console.log('error:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // 부가기능 실행 훅 : 렌더링 후에 실행. fetch 비동기통신 실행할 때 필요
+  useEffect(() => {
+    loadData()
+  }, [])
+  // [] 는 의존값이 없음. 처음에 한번만 실행
+
+  const handleSelected = (selectedDate) => {
+    selectedData(selectedDate)
+    // setSelectedSchedule() 는 선택된 날짜의 객체를 지정. 위 함수안에서 실행
+  }
+
+  if (loading) {
+    return <div>.....loading.....</div>
+  }
+
+  // 비동기 함수 실행 과정에서 렌더링 후에 비동기 함수 실행하므로
+  // 일시적으로 데이터 없는 경우에 대한 처리
+  if (!schedules || schedules.length === 0) {
+    return <div>스케줄이 없습니다.</div>
+  }
+
+  if (!selectedSchedule) {
+    return <div>선택된 스케줄이 없습니다.</div>
   }
 
   return (
@@ -41,16 +79,18 @@ export default function Schedules() {
         {schedules.map((sch, idx) => (
           <button
             key={idx}
-            onClick={() => handleSelected(idx)}
-            disabled={schedule.date === sch.date}
+            onClick={() => handleSelected(sch.date)}
+            disabled={selectedSchedule.date === sch.date}
             style={{
               margin: '0 5px',
               padding: '8px 16px',
-              backgroundColor: schedule.date === sch.date ? '#ccc' : '#007bff',
-              color: schedule.date === sch.date ? '#666' : 'white',
+              backgroundColor:
+                selectedSchedule.date === sch.date ? '#ccc' : '#007bff',
+              color: selectedSchedule.date === sch.date ? '#666' : 'white',
               border: 'none',
               borderRadius: '4px',
-              cursor: schedule.date === sch.date ? 'not-allowed' : 'pointer'
+              cursor:
+                selectedSchedule.date === sch.date ? 'not-allowed' : 'pointer'
             }}
           >
             {sch.date}
@@ -58,11 +98,13 @@ export default function Schedules() {
         ))}
       </div>
       <hr />
-      <h3 style={{ color: '#333', marginBottom: '1rem' }}>{schedule.date}</h3>
+      <h3 style={{ color: '#333', marginBottom: '1rem' }}>
+        {selectedSchedule.date}
+      </h3>
       <table border='1' style={{ width: '100%', borderCollapse: 'collapse' }}>
         <thead>
           <tr>
-            {schedule.todos.map((t, idx) => (
+            {selectedSchedule.todos.map((t, idx) => (
               <th
                 // key는 중복되지 않는 유일한 값으로 합니다.(요소의 변수처럼 취급)
                 key={`time-${idx}`}
@@ -79,7 +121,7 @@ export default function Schedules() {
         </thead>
         <tbody>
           <tr>
-            {schedule.todos.map((t, idx) => (
+            {selectedSchedule.todos.map((t, idx) => (
               <td
                 key={`todo-${idx}`}
                 style={{ padding: '10px', textAlign: 'center' }}

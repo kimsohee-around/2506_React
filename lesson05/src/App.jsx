@@ -1,8 +1,6 @@
-import './App.css'
+import React from 'react'
 import Schedules from './Schedules'
 
-function App() {
+export default function App() {
   return <Schedules />
 }
-
-export default App
