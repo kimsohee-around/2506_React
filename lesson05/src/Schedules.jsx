@@ -172,7 +172,7 @@ export default function Schedules() {
       if (resp.ok) {
         const data = await resp.json()
         console.log(data.message)
-        handleAdd() // 상태값 바꾸기 대신에 다시 해당 날짜로 fetch
+        handleAdd()
       }
     } catch (error) {
       console.log('updateCheckedData error:', error``)
