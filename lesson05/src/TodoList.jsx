@@ -1,19 +1,18 @@
-import React from "react";
-import { FaTrash } from "react-icons/fa";
-import { MdCheckBox, MdCheckBoxOutlineBlank } from "react-icons/md";
-
+import { FaTrash } from 'react-icons/fa'
+import { MdCheckBox, MdCheckBoxOutlineBlank } from 'react-icons/md'
+import './App.css'
 export default function TodosList({ todos, onCheckedUpdate, onRemoved }) {
   return (
-    <table border="1" style={{ width: "100%", borderCollapse: "collapse" }}>
+    <table border='1' style={{ width: '100%', borderCollapse: 'collapse' }}>
       <thead>
         <tr>
           {todos.map((t, idx) => (
             <th
               key={`time-${idx}`}
               style={{
-                backgroundColor: "#f8f9fa",
-                padding: "10px",
-                textAlign: "center",
+                backgroundColor: '#f8f9fa',
+                padding: '10px',
+                textAlign: 'center'
               }}
             >
               {t.time}
@@ -26,7 +25,7 @@ export default function TodosList({ todos, onCheckedUpdate, onRemoved }) {
           {todos.map((t, idx) => (
             <td
               key={`todo-${idx}`}
-              style={{ padding: "10px", textAlign: "center" }}
+              style={{ padding: '10px', textAlign: 'center' }}
             >
               {t.text}
             </td>
@@ -36,14 +35,14 @@ export default function TodosList({ todos, onCheckedUpdate, onRemoved }) {
           {todos.map((t, idx) => (
             <td
               key={`chk-${idx}`}
-              style={{ padding: "10px", textAlign: "center" }}
+              style={{ padding: '10px', textAlign: 'center' }}
             >
               <div
-                className={`checkbox ${t.checked ? "checked" : ""}`}
+                className={`checkbox ${t.checked ? 'checked' : ''}`}
                 onClick={() => onCheckedUpdate(t.time, t.checked)}
               >
                 {t.checked ? <MdCheckBox /> : <MdCheckBoxOutlineBlank />}
-                {t.checked ? "완료" : "미완료"}
+                {t.checked ? '완료' : '미완료'}
               </div>
             </td>
           ))}
@@ -52,9 +51,9 @@ export default function TodosList({ todos, onCheckedUpdate, onRemoved }) {
           {todos.map((t, idx) => (
             <td
               key={`rmv-${idx}`}
-              style={{ padding: "10px", textAlign: "center" }}
+              style={{ padding: '10px', textAlign: 'center' }}
             >
-              <div className="remove" onClick={() => onRemoved(t.time)}>
+              <div className='remove' onClick={() => onRemoved(t.time)}>
                 <FaTrash />
               </div>
             </td>
@@ -62,5 +61,5 @@ export default function TodosList({ todos, onCheckedUpdate, onRemoved }) {
         </tr>
       </tbody>
     </table>
-  );
+  )
 }

@@ -126,6 +126,7 @@ export default function Schedules() {
     }
   }
   // 특정 날짜, 시간 todos 항목 삭제 후 상태값 변수 schedules, selectedSchedule 변경
+  // 변경된 것을 반영하여 객체, 배열 모두 새롭게 생성되어야 합니다.
   const handleRemoved = (time) => {
     const removedTodos = selectedSchedule.todos.filter(
       (item) => item.time !== time
