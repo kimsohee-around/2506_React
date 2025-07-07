@@ -140,14 +140,14 @@ app.put("/api/schedules/:date", async (req, res) => {
 });
 
 /*
-curl -X DELETE http://localhost:5000/api/schedules/ ^
+curl -X DELETE http://localhost:5001/api/schedules/ ^
   -H "Content-Type: application/json" ^
   -d "{  \"time\": \"15:00\", \"date\": \"2025-07-09\"  }"
 
 이 요청은 2025-07-09 날짜의 todos 배열에 time "15:00" 을 삭제합니다.  
 
 
-curl -X DELETE http://localhost:5000/api/schedules/ ^
+curl -X DELETE http://localhost:5001/api/schedules/ ^
   -H "Content-Type: application/json" ^
   -d "{ \"date\": \"2025-07-11\"  }"
 이 요청은 2025-07-11 날짜 요소를 삭제합니다.
