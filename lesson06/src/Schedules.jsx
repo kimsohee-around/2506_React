@@ -111,9 +111,15 @@ export default function Schedules() {
           <h3 style={{ color: '#333', marginBottom: '1rem' }}>
             📅 {selectedSchedule?.date}
           </h3>
-          <button style={{ color: 'tomato' }} onClick={handleAllDelete}>
-            전체일정 삭제
-          </button>
+          {selectedSchedule &&
+          selectedSchedule.todos &&
+          selectedSchedule.todos.length > 0 ? (
+            <button style={{ color: 'tomato' }} onClick={handleAllDelete}>
+              전체일정 삭제
+            </button>
+          ) : (
+            ''
+          )}
           {/* 선택된 날짜에 selectedSchedule.todos 가 있을 때만 TodosCardList 컴포넌트
             를 만들어요. selectedSchedule.todos 는  selectedSchedule 객체가 null 일때(false) 실행하면
             오류가 생깁니다. 그래서 앞에 조건을 추가. */}
