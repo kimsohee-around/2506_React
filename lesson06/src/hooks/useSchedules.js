@@ -98,23 +98,33 @@ export const useSchedules = () => {
       await scheduleApi.deleteTodo(selectedSchedule.date, time);
 
       // 로컬 상태 업데이트
-      const filteredTodos = selectedSchedule.todos.filter(
-        (item) => item.time !== time
-      );
+      if (time) {
+        const filteredTodos = selectedSchedule.todos.filter(
+          (item) => item.time !== time
+        );
 
-      const updatedSchedule = {
-        ...selectedSchedule,
-        todos: filteredTodos,
-      };
+        const updatedSchedule = {
+          ...selectedSchedule,
+          todos: filteredTodos,
+        };
 
-      setSelectedSchedule(updatedSchedule);
+        setSelectedSchedule(updatedSchedule);
 
-      // 전체 스케줄 목록도 업데이트
-      setSchedules((prevSchedules) =>
-        prevSchedules.map((item) =>
-          item.date === selectedSchedule.date ? updatedSchedule : item
-        )
-      );
+        // 전체 스케줄 목록도 업데이트
+        setSchedules((prevSchedules) =>
+          prevSchedules.map((item) =>
+            item.date === selectedSchedule.date ? updatedSchedule : item
+          )
+        );
+      } else {
+        setSchedules((prevSchedules) =>
+          prevSchedules.filter((item) =>
+            item.date !== selectedSchedule.date
+          )
+        );
+        setSelectedSchedule({})
+      }
+
     } catch (err) {
       setError(err.message);
       console.error("Error deleting todo:", err);

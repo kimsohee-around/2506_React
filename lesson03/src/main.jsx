@@ -8,10 +8,10 @@ import { EffectAndRef, FocusInput, PreviousValue } from './RefHookTest'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    {/* <App /> */}
+    <App />
     {/* ref 훅 테스트 */}
     {/* <FocusInput/> */}
     {/* <EffectAndRef /> */}
-    <PreviousValue />
+    {/* <PreviousValue /> */}
   </StrictMode>
 )
