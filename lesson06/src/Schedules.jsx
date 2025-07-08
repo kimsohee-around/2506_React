@@ -103,6 +103,7 @@ export default function Schedules() {
 
           {/* 새 할일 추가 */}
           <TodoForm
+            todos={selectedSchedule?.todos}
             calendarDate={dateFormat(calendarDate)}
             onAddTodo={addTodo}
           />
