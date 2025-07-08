@@ -122,7 +122,7 @@ export const useSchedules = () => {
             item.date !== selectedSchedule.date
           )
         );
-        setSelectedSchedule({})
+        setSelectedSchedule({})  // selectedSchedule 는 빈 {} 객체로 업데이트
       }
 
     } catch (err) {
