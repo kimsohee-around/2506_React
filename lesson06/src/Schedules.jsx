@@ -8,6 +8,8 @@ import LoadingSpinner from './components/LoadingSpinner'
 import ErrorMessage from './components/ErrorMessage'
 import { dateFormat } from './utils/dateUtils'
 
+// 보완할 점 : 할일을 추가할 때, 같은 날짜이면서 같은 시간에 일정 추가 방지
+
 export default function Schedules() {
   const {
     schedules,
