@@ -1,0 +1,49 @@
+.app {
+  max-width: 600px;
+  margin: 2rem auto;
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.quiz {
+  background: #f9f9f9;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+
+  .option {
+    background: #fff;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+
+    &:hover {
+      background: #f0f0f0;
+    }
+
+    &.correct {
+      background-color: #d4edda;
+      border-color: #28a745;
+    }
+
+    &.wrong {
+      background-color: #f8d7da;
+      border-color: #dc3545;
+    }
+  }
+}
+
+.explanation {
+  margin-top: 1.5rem;
+  background: #eef;
+  padding: 1rem;
+  border-radius: 8px;
+}

@@ -1,0 +1,20 @@
+.quiz-container {
+  padding: 20px;
+  border: 1px solid peru;
+  border-radius: 10px;
+}
+
+.quiz-option {
+    color: black;
+    font-size: 16px;
+    padding: 8px;
+    margin-bottom: 5px;
+    border: 1px solid white;
+    background-color: white;
+    cursor: pointer;
+
+}
+
+.quiz-option:hover {
+    background-color: peru;
+}

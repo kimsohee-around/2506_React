@@ -1,0 +1,84 @@
+// App.scss
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.app-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: #f0f2f5;
+  font-family: 'Segoe UI', sans-serif;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.quiz-card {
+  width: 100%;
+  max-width: 800px; // 📱 데스크탑에서는 넓게
+  background: #fff;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+.options {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+}
+
+.option-btn {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #eee;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &:hover:enabled {
+    background-color: #ddd;
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.9;
+  }
+
+  &.correct {
+    background-color: lightgreen !important;
+  }
+
+  &.wrong {
+    background-color: salmon !important;
+  }
+}
+
+.next-btn {
+  margin-top: 1rem;
+  padding: 10px 16px;
+  background-color: #007bff;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+}
+
+.result {
+  text-align: center;
+}

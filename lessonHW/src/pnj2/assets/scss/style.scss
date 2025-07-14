@@ -1,0 +1,146 @@
+// 앱 컨테이너 스타일
+.app {
+  max-width: 600px;
+  margin: 2rem auto;
+  font-family: sans-serif;
+  text-align: center;
+}
+
+// 퀴즈 박스 스타일
+.quiz {
+  background: #f9f9f9;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+// 진행 상태 표시 (ex: Quiz 1 / 5)
+.quiz-progress {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+// 선택지 목록 스타일
+ul {
+  list-style: none;
+  padding: 0;
+
+  .option {
+    background: #fff;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+
+    &:hover {
+      background: #f0f0f0;
+    }
+
+    // 정답 선택 시
+    &.correct {
+      background-color: #d4edda;
+      border-color: #28a745;
+    }
+
+    // 오답 선택 시
+    &.wrong {
+      background-color: #f8d7da;
+      border-color: #dc3545;
+    }
+
+    // 정답이 공개된 경우 더 이상 클릭 불가
+    &.disabled {
+      pointer-events: none;
+      cursor: default;
+      background: #f9f9f9 !important;
+      color: #999;
+    }
+  }
+}
+
+// 해설 영역 스타일
+.explanation {
+  margin-top: 1.5rem;
+  background: #eef;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+// 정답/오답/완료 움짤 스타일
+.result-gif {
+  max-width: 100%;
+  margin-top: 1rem;
+  border-radius: 10px;
+}
+
+// 이전/다음 버튼 영역 스타일
+.nav-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+
+  button {
+    padding: 0.5rem 1.2rem;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 6px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover:not(:disabled) {
+    background-color: #0056b3;
+  }
+
+  // 비활성화된 버튼 스타일
+  button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+// 추가 버튼 스타일: 다시 시도, 다음 문제, 결과 보기, 처음부터 시작
+.try-again-btn,
+.next-btn,
+.finish-btn,
+.retry-btn {
+  margin-top: 1rem;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 6px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.3s ease;
+  display: inline-block;
+}
+
+.try-again-btn:hover,
+.next-btn:hover,
+.finish-btn:hover,
+.retry-btn:hover {
+  background-color: #0056b3;
+}
+
+// 결과 영역 스타일
+.result {
+  margin-top: 2rem;
+  text-align: center;
+
+  h2 {
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+  }
+}
