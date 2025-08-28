@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import REQ_URL from "../js/request";
+import "./boardlist.css";
 
 const BoardList = () => {
   // 게시판 글 서버 응답 저장
@@ -28,10 +29,29 @@ const BoardList = () => {
   }, []); // [] 의존성리스트가 비어있으면 처음 랜더링 할때 한번만 실행됨.
   console.log(boards); // 로그 출력은 여기서만 확인 가능
 
-  
   return (
-    <div>
-      <h1>BoardList</h1>
+    <div className="board-container">
+      <h1>전체 글</h1>
+      <table className="board-table">
+        <thead>
+          <tr>
+            <th>제목</th>
+            <th>내용</th>
+            <th>작성일</th>
+            <th>작성자</th>
+          </tr>
+        </thead>
+        <tbody>
+          {boards.map((board) => (
+            <tr key={board.id}>
+              <td>{board.title}</td>
+              <td>{board.content}</td>
+              <td>{new Date(board.createdAt).toLocaleDateString()}</td>
+              <td>{board.author}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
