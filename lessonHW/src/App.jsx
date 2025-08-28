@@ -65,27 +65,29 @@ const quizData = [
 ];
 
 function QuizApp() {
-  const [answers, setAnswers] = useState(Array(quizData.length).fill(null));
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [submitted, setSubmitted] = useState(false);
+  // const [answers, setAnswers] = useState(Array(quizData.length).fill(null));
+  const [answers, setAnswers] = useState([null,null,null,null,null]);    // 문제 답을 저장하는 배열
+  const [currentIndex, setCurrentIndex] = useState(0);  // 문제 인덱스
+  const [submitted, setSubmitted] = useState(false);    // 최종 제출 여부
 
-  const handleSelect = (optionIndex) => {
+  const handleSelect = (optionIndex) => {    // 답 optionIndex 선택하면 answers 배열 바꾸기
     if (!submitted) {
-      const updated = [...answers];
-      updated[currentIndex] = optionIndex;
-      setAnswers(updated);
+      const updated = [...answers];     // 배열 복사하여 updated 참조
+      updated[currentIndex] = optionIndex;   // 선택한 번호의 답만 변경
+      setAnswers(updated);   // 새로운 배열로 answers 상태 변경
     }
   };
 
-  const allAnswered = answers.every((a) => a !== null);
+  const allAnswered = answers.every((a) => a !== null);   // 배열의 모든 요소가 답이 있으면 '참' 리턴
+  // 채점
   const score = answers.reduce(
-    (acc, val, i) => (val === quizData[i].answer ? acc + 1 : acc),
-    0
+    (acc, val, i) => (val === quizData[i].answer ? acc + 1 : acc),    // acc 는 누적 계산 저장, val 는 answers 배열 요소 값
+    0    // acc 초기값
   );
 
-  const currentQuiz = quizData[currentIndex];
-  const userAnswer = answers[currentIndex];
-  const isCorrect = userAnswer === currentQuiz.answer;
+  const currentQuiz = quizData[currentIndex];    // currentIndex 위치의 퀴즈
+  const userAnswer = answers[currentIndex];      // currentIndex 의 답을 저장. 이전 문제 볼때 선택한 답 표시
+  const isCorrect = userAnswer === currentQuiz.answer;   // 선택한 답을 정답과 비교
 
   return (
     <div
@@ -107,18 +109,19 @@ function QuizApp() {
         }}
       >
         <h2>
-          🧠 문제 {currentIndex + 1} / {quizData.length}
+          문제 {currentIndex + 1} / {quizData.length}
         </h2>
         <p style={{ fontWeight: "bold" }}>{currentQuiz.question}</p>
 
         <ul style={{ listStyle: "none", padding: 0 }}>
+          {/* 퀴즈의 options 문항 출력 */}
           {currentQuiz.options.map((option, i) => {
-            const isSelected = userAnswer === i;
+            const isSelected = userAnswer === i;    // 선택한 답이면 참
             const isAnswer = currentQuiz.answer === i;
 
-            let borderColor = "1px solid #ccc";
-            if (submitted && isAnswer) borderColor = "2px solid green";
-            else if (isSelected) borderColor = "2px solid #888";
+            let borderColor = "1px solid #ccc";    // 모든 옵션의 기본 css
+            if (submitted && isAnswer) borderColor = "2px solid green";   // 제출 완료 했을 때 맞는 답 css
+            else if (isSelected) borderColor = "2px solid #888";   // 선택한 답의 css
 
             return (
               <li key={i} style={{ marginBottom: 8 }}>
@@ -129,7 +132,7 @@ function QuizApp() {
                     borderRadius: 8,
                     border: borderColor,
                     backgroundColor: isSelected ? "#f9f9f9" : "white",
-                    cursor: submitted ? "default" : "pointer",
+                    cursor: submitted ? "default" : "pointer",  // 제출한 경우 선택 못함
                   }}
                 >
                   {option}
@@ -139,7 +142,7 @@ function QuizApp() {
           })}
         </ul>
 
-        {submitted && (
+        {submitted && (     // 제출 버튼을 누른 뒤에 각 문제 currentIndex 
           <div style={{ marginTop: 12 }}>
             {isCorrect ? (
               <p style={{ color: "green" }}>✅ 정답입니다!</p>
@@ -176,7 +179,7 @@ function QuizApp() {
           >
             ← 이전
           </button>
-          {currentIndex < quizData.length - 1 ? (
+          {currentIndex < quizData.length - 1 ? (    // currentIndex 가 마지막 문제가 아닐 때만
             <button
               onClick={() =>
                 setCurrentIndex((prev) =>
@@ -194,9 +197,9 @@ function QuizApp() {
             >
               다음 →
             </button>
-          ) : (
-            !submitted &&
-            allAnswered && (
+          ) : (   // currentIndex 가 마지막 문제이면
+            !submitted &&        // 제출 버튼을 누르지 않았을 때
+            allAnswered && (    // 모든 답이 저장되어 있을 때
               <button
                 onClick={() => setSubmitted(true)}
                 style={{
@@ -214,7 +217,7 @@ function QuizApp() {
           )}
         </div>
 
-        {submitted && currentIndex === quizData.length - 1 && (
+        {submitted && currentIndex === quizData.length - 1 && (     // 제출하고 마지막 문제 currentIndex 일 때 점수 표시
           <div style={{ marginTop: 20, fontSize: "18px" }}>
             총 점수:{" "}
             <strong>
