@@ -8,6 +8,7 @@ import MyPosts from "./components/MyPosts";
 import Logout from "./components/Logout";
 import Layout from "./components/Layout";
 import ProtectedRoute from "./components/ProtectedRoute";
+import PublicRoute from "./components/PublicRoute";
 
 const App = () => {
   return (
@@ -45,7 +46,14 @@ const App = () => {
         </Route>
         {/* Layout 포함시키는 컴포넌트들 */}
         {/* layout 포함 안시키는 컴포넌트 */}
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/login"
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
