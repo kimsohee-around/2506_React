@@ -7,14 +7,14 @@ const MyPosts = () => {
   const [boards, setBoards] = useState([]);
   // 페이지 설정
   const [currentPage, setCurrentPage] = useState(1);
-  const boardPerPage = 5; // 1페이지에 5개
-
+  const boardPerPage = 3; // 1페이지에 3개
+  const username = localStorage.getItem("email");
   useEffect(() => {
     // 요청 함수
     async function fetchBoards() {
       const token = localStorage.getItem("token");
       try {
-        const response = await fetch(`${REQ_URL}/api/boards`, {
+        const response = await fetch(`${REQ_URL}/api/boards?me`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -43,9 +43,9 @@ const MyPosts = () => {
 
   return (
     <div>
-      <h1> Welcome ! , </h1>
+      <h1> Welcome ! , {username} </h1>
       <div className="board-container">
-        {currentBoards.map((board) => {
+        {currentBoards.map((board) => (
           <div key={board.id} className="board-card">
             <h3>{board.title}</h3>
             <p>{board.content}</p>
@@ -57,8 +57,8 @@ const MyPosts = () => {
                 수정일: {new Date(board.updatedAt).toLocaleDateString()}
               </span>
             </div>
-          </div>;
-        })}
+          </div>
+        ))}
       </div>
 
       <div>현재 페이지 : {currentPage}</div>
