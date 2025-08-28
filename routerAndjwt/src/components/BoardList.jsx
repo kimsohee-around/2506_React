@@ -18,16 +18,17 @@ const BoardList = () => {
         },
       });
 
-      if(response.ok){
-        const data = await response.json()     //json 문자열 body 를 js객체로
-        setBoards(data)
-        console.log(boards)
+      if (response.ok) {
+        const data = await response.json(); //json 문자열 body 를 js객체로
+        setBoards(data);
       }
-    }
+    } // 여기까지는 api 요청 함수 정의
 
-    fetchBoards();
-  });
+    fetchBoards(); // 함수 실행
+  }, []); // [] 의존성리스트가 비어있으면 처음 랜더링 할때 한번만 실행됨.
+  console.log(boards); // 로그 출력은 여기서만 확인 가능
 
+  
   return (
     <div>
       <h1>BoardList</h1>
