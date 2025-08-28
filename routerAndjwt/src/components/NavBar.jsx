@@ -1,13 +1,19 @@
 import { Link } from "react-router-dom";
+import isAuthenticated from "../js/auth";
+import Logout from "./Logout";
+import "./nav.css";
 
 const NavBar = () => {
   return (
-    <nav>
+    <nav className="navbar">
       <Link to="/">홈</Link>
-      <Link to="/login">로그인</Link>
-      <Link to="/boardlist">전체글</Link>
-      <Link to="/myposts">내 포스트</Link>
-      <Link to="/logout">로그아웃</Link>
+      {isAuthenticated() && (
+        <div>
+          <Link to="/myposts">내 포스트</Link>
+          <Link to="/boardList">전체 글</Link>
+        </div>
+      )}
+      {isAuthenticated() ? <Logout /> : <Link to="/login">로그인</Link>}
     </nav>
   );
 };

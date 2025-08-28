@@ -17,6 +17,7 @@ const App = () => {
         {/* Layout 을 적용하기 위한 Route 들을 감싸면, 자식 Route 가 렌더링 될때 Layout 이 같이 보임 */}
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
+          {/* ProtectedRoute  컴포넌트를 이용하여 로그인이 필요한 자식 컴포넌트를 보호. */}
           <Route
             path="/boardlist"
             element={
@@ -41,7 +42,7 @@ const App = () => {
               </ProtectedRoute>
             }
           />
-        </Route>{" "}
+        </Route>
         {/* Layout 포함시키는 컴포넌트들 */}
         {/* layout 포함 안시키는 컴포넌트 */}
         <Route path="/login" element={<Login />} />
