@@ -1,9 +1,14 @@
+import { useNavigate } from "react-router-dom";
+
 const Logout = () => {
-  return (
-    <div>
-      <h1>Logout</h1>
-    </div>
-  );
+  const navigate = useNavigate();
+
+  function handleLogout() {
+    localStorage.clear(); // token,email 2개 아이템을 삭제
+    navigate("/");
+  }
+
+  return <button onClick={handleLogout}>로그아웃</button>;
 };
 
 export default Logout;
