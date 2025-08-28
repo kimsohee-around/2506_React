@@ -1,15 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import REQ_URL from "../api/request";
+import REQ_URL from "../js/request";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState(false);
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // 로그인 후에 요청할 클라이언트 url 지정
 
+  // submit 이벤트 함수 : fetch 바로 실행
   const handleLogin = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // 기존 submit 바로 실행하지 않도록 함.
 
     try {
       const response = await fetch(`${REQ_URL}/api/auth/login`, {
@@ -17,7 +18,7 @@ const Login = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password }), //json 문자열로 변환(직렬화)
       });
 
       const result = await response.json();
@@ -26,7 +27,7 @@ const Login = () => {
         // 로그인 성공: 토큰 저장
         localStorage.setItem("token", result.token);
         localStorage.setItem("email", result.email);
-        navigate("/BoardList"); // 로그인 후 이동
+        navigate("/boardlist"); // 로그인 후 이동(location.href='')
       } else {
         setLoginError(true); // 로그인 실패
       }
