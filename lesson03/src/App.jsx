@@ -30,6 +30,7 @@ export default function App() {
     }
   ]
   const [todos, setTodos] = useState(initVal)
+  const [today, setToday] = useState('2025-07-03')
   const maxid = useRef(todos.length + 1)
 
   // 🔥 상태변수 todos 변경
@@ -64,11 +65,17 @@ export default function App() {
         {/* TodoInsert, TodoList 컴포넌트 
         => TodoTemplate 컴포넌트의 children 속성으로 사용할 수 있습니다. */}
         {/* 속성이름은 개발자가 정합니다. 속성의 값은 정의된 것으로 해야합니다. */}
+        <h2>{today}</h2>
         <TodoInsert onInsert={handleInsert} />
         <TodoList
           todos={todos}
           onRemove={handleRemove}
           onChecked={handleChecked}
+        />
+        <input
+          type='date'
+          value={today}
+          onChange={(e) => setToday(e.target.value)}
         />
       </TodoTemplate>
       <div> 렌더링 카운트 : {renderCount.current}</div>
